@@ -79,7 +79,7 @@ docker --version && docker compose version
 ```bash
 # Clone the repository
 git clone https://github.com/CyberBlue0/CyberBlueSOC.git
-cd cyberblueSOC
+cd CyberBlueSOC
 
 # Run the quick start script 
 chmod +x cyberblue_init.sh
