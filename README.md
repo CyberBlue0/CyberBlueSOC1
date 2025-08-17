@@ -1,4 +1,4 @@
-# 🛡️ CyberBlue - Complete Cybersecurity Platform
+# 🛡️ CyberBlueSOC Platform
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Docker](https://img.shields.io/badge/Docker-20.10+-blue.svg)](https://www.docker.com/)
@@ -12,16 +12,15 @@
 
 ## 🎯 Overview
 
-CyberBlue transforms complex cybersecurity tool deployment into a **one-command solution**. Built with Docker Compose and featuring a beautiful web portal, it provides enterprise-grade security capabilities in minutes, not days.
+CyberBlue transforms Blue Teams cybersecurity tool deployment into a **one-command solution**. Built with Docker Compose and featuring a beautiful web portal, it provides enterprise-grade security capabilities in minutes, not days.
 
 ### 🌟 Why CyberBlue?
 
-- **🚀 Instant Deployment**: Full security lab in under 10 minutes
+- **🚀 Instant Deployment**: Full security lab in under 30 minutes
 - **🎨 Modern Interface**: Beautiful CyberBlue portal with enhanced dashboard
-- **🔧 Production Ready**: Pre-configured, optimized containers
-- **📚 Complete Documentation**: Step-by-step guides and tutorials
-- **🔒 Security Focused**: Hardened configurations and best practices
-- **🌐 Community Driven**: Open source with active development
+- **🔧 Lab Ready**: Pre-configured, optimized containers
+- **📚 Documentation**: Step-by-step guides and tutorials (auto-generated for Beta version)
+- **🌐 Community Driven**: Open source with active development!
 
 ---
 
@@ -58,18 +57,31 @@ CyberBlue transforms complex cybersecurity tool deployment into a **one-command 
 
 ### Prerequisites
 - **Docker** 20.10+ and **Docker Compose** 2.0+
-- **8GB+ RAM** (16GB recommended)
-- **50GB+ free disk space**
-- **Linux/macOS** (Windows via WSL2)
+```bash
+sudo apt remove -y docker docker-engine docker.io containerd runc && \
+sudo apt update && \
+sudo apt install -y ca-certificates curl gnupg lsb-release && \
+sudo mkdir -p /etc/apt/keyrings && \
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+sudo apt update && \
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && \
+sudo usermod -aG docker $USER && \
+newgrp docker && \
+docker --version && docker compose version
+```
+- **RAM** (16+ GB recommended)
+- **100GB+ free disk space**
+- **Linux/Ubuntu** (tested only on Ubuntu 22.04.5 LTS & Ubuntu 24.04.2 LTS)
 
 ### ⚡ One-Command Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/m7siri/cyberblue.git
-cd cyberblue
+git clone https://github.com/CyberBlue0/CyberBlueSOC.git
+cd cyberblueSOC
 
-# Run the quick start script
+# Run the quick start script 
 chmod +x cyberblue_init.sh
 chmod +x quick-start.sh
 ./quick-start.sh
@@ -198,29 +210,8 @@ CyberBlue uses a microservices architecture with Docker Compose:
 
 ---
 
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-### 🐛 Reporting Issues
-- Use the [GitHub Issues](https://github.com/m7siri/cyber-blue-project/issues) page
-- Include system information and logs
-- Describe steps to reproduce
-
-### 💡 Feature Requests
-- Submit via [GitHub Issues](https://github.com/m7siri/cyber-blue-project/issues)
-- Use the "enhancement" label
-- Provide detailed use cases
-
----
 
 ## 📋 System Requirements
-
-### Minimum Requirements
-- **CPU**: 4 cores
-- **RAM**: 8GB
-- **Storage**: 50GB free space
-- **OS**: Linux (Ubuntu 20.04+, CentOS 8+)
 
 ### Recommended Requirements
 - **CPU**: 8+ cores
@@ -271,19 +262,17 @@ CyberBlue includes built-in monitoring:
 
 - **Container Health**: Real-time status monitoring
 - **Resource Usage**: CPU, memory, disk utilization
-- **Security Events**: Centralized logging and alerting
-- **Performance Metrics**: Response times and throughput
 
 ---
 
 ## 🔒 Security Considerations
 
 - **Network Isolation**: All tools run in isolated Docker networks
-- **Access Control**: Configure authentication for production use
-- **SSL/TLS**: Enable HTTPS for all web interfaces
-- **Firewall Rules**: Restrict access to necessary ports only
+- **Access Control**: Configure authentication for LAB use
+- **SSL/TLS**: Enable HTTPS for some web interfaces
+- 
 
-See our [Security Guide](SECURITY.md) for detailed hardening instructions.
+See our [Security Guide](SECURITY.md) for detailed hardening instructions. 
 
 ---
 
@@ -300,22 +289,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **The Hive Project** for incident response tools
 - **All open-source contributors** who make this possible
 
----
-
-## 📞 Support
-
-- **Documentation**: [GitHub Wiki](https://github.com/m7siri/cyber-blue-project/wiki)
-- **Community**: [GitHub Discussions](https://github.com/m7siri/cyber-blue-project/discussions)
-- **Issues**: [GitHub Issues](https://github.com/m7siri/cyber-blue-project/issues)
 
 ---
 
 <div align="center">
 
-**⭐ Star this repository if you find it useful!**
-
-**🔗 Follow [@m7siri](https://github.com/m7siri) for updates**
-
-Made with ❤️ for the cybersecurity community
+**⭐ Star this repository if you find it useful for you!**
 
 </div>
