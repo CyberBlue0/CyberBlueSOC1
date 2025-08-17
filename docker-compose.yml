@@ -40,6 +40,7 @@ services:
     restart: unless-stopped
 
       
+     
   wireshark:
     image: lscr.io/linuxserver/wireshark:latest
     container_name: wireshark
@@ -49,15 +50,13 @@ services:
     environment:
       - CUSTOM_USER=admin
       - PASSWORD=cyberblue
-      - TZ=Asia/Riyadh
-      - DISABLE_SSL=true
-      - HTTP_PORT=3000
     volumes:
       - ./wireshark/config:/config
     ports:
-      - "7011:3000"  # HTTP only
-      - "7099:3000"  # HTTP on port 7099 as well
+      - "7011:3000"  # HTTP 
+      - "7099:3001"  # HTTPS 
     restart: unless-stopped
+
 
   suricata:
     image: stamus/suricata:latest
