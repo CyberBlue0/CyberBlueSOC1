@@ -58,7 +58,6 @@ CyberBlue transforms Blue Teams cybersecurity tool deployment into a **one-comma
 ### Prerequisites
 - **Docker** 20.10+ and **Docker Compose** 2.0+
 ```bash
-sudo apt remove -y docker docker-engine docker.io containerd runc && \
 sudo apt update && \
 sudo apt install -y ca-certificates curl gnupg lsb-release && \
 sudo mkdir -p /etc/apt/keyrings && \
