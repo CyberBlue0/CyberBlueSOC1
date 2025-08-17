@@ -847,7 +847,7 @@ def get_tools():
         },
         {
             "name": "Portainer",
-            "description": "Web-based container management interface for Docker and Kubernetes.",
+            "description": "Web-based container management interface for Docker and Kubernetes. ⚠️ NOTE: RESTART to be able to set the password!",
             "port": 9443,
             "icon": "fas fa-ship",
             "category": "management",
