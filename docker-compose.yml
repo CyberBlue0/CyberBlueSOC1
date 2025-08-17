@@ -50,11 +50,12 @@ services:
       - CUSTOM_USER=admin
       - PASSWORD=cyberblue
       - TZ=Asia/Riyadh
+      - DISABLE_SSL=true
+      - HTTP_PORT=3000
     volumes:
       - ./wireshark/config:/config
     ports:
-      - "7011:3000"  # HTTP → redirected to 7011
-      - "7099:3001"  # HTTPS → stays the same
+      - "7011:3000"  # HTTP only
     restart: unless-stopped
 
   suricata:
@@ -764,6 +765,25 @@ services:
     depends_on:
       - opensearch-init
 
+  openvas:
+    image: immauss/openvas:latest
+    container_name: openvas
+    hostname: openvas
+    environment:
+      - PASSWORD=cyberblue
+      - TZ=Asia/Riyadh
+    ports:
+      - "7014:9392"
+    volumes:
+      - ./openvas/data:/var/lib/openvas
+      - ./openvas/logs:/var/log/openvas
+    networks:
+      - cyber-blue
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    security_opt:
+      - seccomp:unconfined
 
 
 volumes:

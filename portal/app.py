@@ -301,7 +301,8 @@ class ContainerMonitor:
             "mitre": ["mitre-navigator", "cyber-blue-test-mitre-navigator-1"],
             "mitre-navigator": ["mitre-navigator", "cyber-blue-test-mitre-navigator-1"],
             "portainer": ["portainer", "cyber-blue-test-portainer-1"],
-            "shuffle": ["shuffle-frontend", "cyber-blue-test-shuffle-frontend-1"]
+            "shuffle": ["shuffle-frontend", "cyber-blue-test-shuffle-frontend-1"],
+            "openvas": ["openvas"]
         }
         
         def find_container_name(possible_names):
@@ -351,7 +352,8 @@ class ContainerMonitor:
             "mitre": ["mitre-navigator", "cyber-blue-test-mitre-navigator-1"],
             "mitre-navigator": ["mitre-navigator", "cyber-blue-test-mitre-navigator-1"],
             "portainer": ["portainer", "cyber-blue-test-portainer-1"],
-            "shuffle": ["shuffle-frontend", "cyber-blue-test-shuffle-frontend-1"]
+            "shuffle": ["shuffle-frontend", "cyber-blue-test-shuffle-frontend-1"],
+            "openvas": ["openvas"]
         }
         
         if tool_name in tool_container_map:
@@ -799,7 +801,7 @@ def get_tools():
             "port": 7009,
             "icon": "fas fa-chess-king",
             "category": "attack-simulation",
-            "categoryName": "Attack Simulation",
+            "categoryName": "ATTACK SIMULATION",
             "protocols": ["http"],
             "credentials": {
                 "username": "admin",
@@ -812,7 +814,7 @@ def get_tools():
             "port": 7010,
             "icon": "fas fa-eye",
             "category": "ids",
-            "categoryName": "IDS",
+            "categoryName": "INTRUSION DETECTION",
             "protocols": ["https"],
             "credentials": {
                 "note": "No authentication required"
@@ -823,8 +825,8 @@ def get_tools():
             "description": "Network protocol analyzer for deep packet inspection and network troubleshooting.",
             "port": 7099,
             "icon": "fas fa-filter",
-            "category": "utility",
-            "categoryName": "Utility",
+            "category": "network analysis",
+            "categoryName": "NETWORK ANALYSIS",
             "protocols": ["https"],
             "credentials": {
                 "username": "admin",
@@ -854,6 +856,19 @@ def get_tools():
             "credentials": {
                 "username": "admin",
                 "password": "cyberblue123"
+            }
+        },
+        {
+            "name": "OpenVAS",
+            "description": "Enterprise-grade vulnerability scanner with comprehensive security testing and reporting capabilities. ⚠️ NOTE: First startup takes 10-15 minutes to initialize vulnerability feeds. Please wait for full initialization.",
+            "port": 7014,
+            "icon": "fas fa-shield-alt",
+            "category": "vulnerability",
+            "categoryName": "VULNERABILITY MANAGEMENT",
+            "protocols": ["http"],
+            "credentials": {
+                "username": "admin",
+                "password": "cyberblue"
             }
         }
     ]
@@ -896,8 +911,10 @@ def get_dashboard_metrics():
             "soar": ["shuffle", "thehive", "cortex", "caldera"],
             "cti": ["misp", "mitre-navigator"],
             "ids": ["arkime", "evebox"],
-            "utility": ["cyberchef", "wireshark"],
-            "management": ["fleetdm", "portainer"]
+            "network analysis": ["wireshark"],
+            "utility": ["cyberchef"],
+            "management": ["fleetdm", "portainer"],
+            "vulnerability": ["openvas"]
         }
         
         category_health = {}

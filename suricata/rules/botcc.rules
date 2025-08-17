@@ -42,7 +42,7 @@
 
 #Feodo Tracker
 
-alert ip $HOME_NET any -> [162.243.103.246] any (msg:"ET CNC Feodo Tracker Reported CnC Server group 1"; reference:url,doc.emergingthreats.net/bin/view/Main/BotCC; reference:url,feodotracker.abuse.ch; threshold: type limit, track by_src, seconds 3600, count 1; flowbits:set,ET.Evil; flowbits:set,ET.BotccIP; classtype:trojan-activity; sid:2404300; rev:7629; metadata:affected_product Windows_XP_Vista_7_8_10_Server_32_64_Bit, attack_target Client_Endpoint, deployment Perimeter, tag Banking_Trojan, signature_severity Major, created_at 2014_11_04, updated_at 2025_07_26;)
+alert ip $HOME_NET any -> [162.243.103.246] any (msg:"ET CNC Feodo Tracker Reported CnC Server group 1"; reference:url,doc.emergingthreats.net/bin/view/Main/BotCC; reference:url,feodotracker.abuse.ch; threshold: type limit, track by_src, seconds 3600, count 1; flowbits:set,ET.Evil; flowbits:set,ET.BotccIP; classtype:trojan-activity; sid:2404300; rev:7649; metadata:affected_product Windows_XP_Vista_7_8_10_Server_32_64_Bit, attack_target Client_Endpoint, deployment Perimeter, tag Banking_Trojan, signature_severity Major, created_at 2014_11_04, updated_at 2025_08_15;)
 
 
 #Ransomware Tracker

@@ -100,10 +100,19 @@ Individual tools are available on ports **7000-7099**:
 
 ## 📖 Documentation
 
+### 🚀 Quick Start
 - **[Installation Guide](INSTALL.md)** - Detailed setup instructions
 - **[Security Guide](SECURITY.md)** - Hardening and best practices
-- **[Tool Configuration](docs/TOOLS.md)** - Individual tool setup
-- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
+
+### 📚 Comprehensive Documentation
+- **[📚 Documentation Hub](docs/README.md)** - Complete documentation index
+- **[📖 User Guide](docs/USER_GUIDE.md)** - How to use all CyberBlue tools
+- **[⚙️ Tool Configurations](docs/TOOL_CONFIGURATIONS.md)** - Advanced tool setup and customization
+- **[🔌 API Reference](docs/API_REFERENCE.md)** - Portal API documentation
+- **[🚀 Deployment Scenarios](docs/DEPLOYMENT_SCENARIOS.md)** - Development, staging, and production guides
+- **[🔧 Maintenance Guide](docs/MAINTENANCE_GUIDE.md)** - Operational procedures and schedules
+- **[💾 Backup & Recovery](docs/BACKUP_RECOVERY.md)** - Disaster recovery procedures
+- **[🔧 Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
 
 ---
 
