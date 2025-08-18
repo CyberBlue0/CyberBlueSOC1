@@ -67,6 +67,8 @@ sudo apt update && \
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && \
 sudo usermod -aG docker $USER && \
 newgrp docker && \
+sudo chown root:docker /var/run/docker.sock && \
+cb@cb:~/CyberBlueSOC$ sudo chmod 660 /var/run/docker.sock && \
 docker --version && docker compose version
 ```
 - **RAM** (16+ GB recommended)
