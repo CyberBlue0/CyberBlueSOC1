@@ -46,17 +46,19 @@ services:
     container_name: wireshark
     cap_add:
       - NET_ADMIN
-#    network_mode: host
+    network_mode: host
     environment:
       - CUSTOM_USER=admin
       - PASSWORD=cyberblue
+      - CUSTOM_PORT=7098          # Change HTTP port
+      - CUSTOM_HTTPS_PORT=7099    # Optional: HTTPS port if needed
     volumes:
       - ./wireshark/config:/config
     ports:
       - "7011:3000"  # HTTP 
       - "7099:3001"  # HTTPS 
     restart: unless-stopped
-
+    privileged: true
 
   suricata:
     image: stamus/suricata:latest
@@ -770,6 +772,7 @@ services:
     container_name: openvas
     hostname: openvas
     environment:
+      - SKIPSYNC=true
       - PASSWORD=cyberblue
       - TZ=Asia/Riyadh
     ports:
