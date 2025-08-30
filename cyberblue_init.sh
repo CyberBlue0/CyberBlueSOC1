@@ -1,9 +1,27 @@
 #!/bin/bash
 
 set -e  # Exit on error
+
+# Record start time
+START_TIME=$(date +%s)
+
 echo "🚀 Starting CyberBlue initialization..."
 
+# ----------------------------
+# Cleanup: Remove existing directories if they exist
+# ----------------------------
+echo "🧹 Cleaning up any existing build directories..."
+if [ -d "attack-navigator" ]; then
+    echo "   Removing existing attack-navigator/ directory..."
+    rm -rf attack-navigator/
+fi
+if [ -d "wireshark" ]; then
+    echo "   Removing existing wireshark/ directory..."
+    rm -rf wireshark/
+fi
+
 # Clone MITRE ATTACK Nav.
+echo "📥 Cloning MITRE ATT&CK Navigator..."
 git clone https://github.com/mitre-attack/attack-navigator.git
 
 # ----------------------------
@@ -199,4 +217,44 @@ for i in {1..30}; do
   sleep 2
 done
 
-echo "✅ Initialization complete!"
+# ----------------------------
+# Final Success Message with Logo and Time
+# ----------------------------
+END_TIME=$(date +%s)
+DURATION=$((END_TIME - START_TIME))
+MINUTES=$((DURATION / 60))
+SECONDS=$((DURATION % 60))
+
+echo ""
+echo "🎉 =================================="
+echo "    ____      _               ____  _            "
+echo "   / ___|   _| |__   ___ _ __| __ )| |_   _  ___ "
+echo "  | |  | | | | '_ \ / _ \ '__|  _ \| | | | |/ _ \\"
+echo "  | |__| |_| | |_) |  __/ |  | |_) | | |_| |  __/"
+echo "   \____\__, |_.__/ \___|_|  |____/|_|\__,_|\___|"
+echo "        |___/                                    "
+echo ""
+echo "  🔷 CyberBlue SOC Platform Successfully Deployed! 🔷"
+echo ""
+echo "⏱️  Total Installation Time: ${MINUTES}m ${SECONDS}s"
+echo ""
+echo "🌐 Access Your SOC Tools:"
+echo "   🏠 Portal:         https://$(hostname -I | awk '{print $1}'):5443"
+echo "   🔒 MISP:           https://$(hostname -I | awk '{print $1}'):7003"
+echo "   🛡️  Wazuh:          http://$(hostname -I | awk '{print $1}'):7001"
+echo "   🔍 EveBox:         http://$(hostname -I | awk '{print $1}'):7010"
+echo "   🧠 Caldera:        http://$(hostname -I | awk '{print $1}'):7009"
+echo "   📊 Arkime:         http://$(hostname -I | awk '{print $1}'):7008"
+echo "   🕷️  TheHive:        http://$(hostname -I | awk '{print $1}'):7005"
+echo "   🔧 Fleet:          http://$(hostname -I | awk '{print $1}'):7007"
+echo "   🧪 CyberChef:      http://$(hostname -I | awk '{print $1}'):7004"
+echo "   🔗 Shuffle:        http://$(hostname -I | awk '{print $1}'):7002"
+echo "   🖥️  Portainer:      http://$(hostname -I | awk '{print $1}'):9443"
+echo "   ✨ ...and many others!"
+echo ""
+echo "🔑 Access & Credentials:"
+echo "   🏠 CyberBlueSOC Portal: https://$(hostname -I | awk '{print $1}'):5443 - admin / cyberblue123"
+echo "   🔒 Other Tools:         admin / cyberblue"
+echo ""
+echo "✅ CyberBlue SOC is ready for cyber defense operations!"
+echo "=================================="
