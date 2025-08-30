@@ -6,13 +6,21 @@ services:
     container_name: cyber-blue-portal
     ports:
       - "5500:5500"
+      - "5443:5443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portal/logs:/app/logs
+      - ./portal/ssl:/app/ssl:ro
     environment:
       - PORT=5500
+      - HTTPS_PORT=5443
       - FLASK_ENV=production
       - HOST_IP=${HOST_IP}
+      - ENABLE_HTTPS=true
+      - SSL_CERT_PATH=/app/ssl/cert.pem
+      - SSL_KEY_PATH=/app/ssl/key.pem
+      - SECRET_KEY=cyberblue-secure-secret-key-change-in-production
+      - ADMIN_PASSWORD=cyberblue123
     restart: unless-stopped
     networks:
       - cyber-blue
@@ -39,8 +47,6 @@ services:
       - "7013:4200"
     restart: unless-stopped
 
-      
-     
   wireshark:
     image: lscr.io/linuxserver/wireshark:latest
     container_name: wireshark
@@ -50,20 +56,20 @@ services:
     environment:
       - CUSTOM_USER=admin
       - PASSWORD=cyberblue
-      - CUSTOM_PORT=7098          # Change HTTP port
-      - CUSTOM_HTTPS_PORT=7099    # Optional: HTTPS port if needed
+      - CUSTOM_PORT=7098 # Change HTTP port
+      - CUSTOM_HTTPS_PORT=7099 # Optional: HTTPS port if needed
     volumes:
       - ./wireshark/config:/config
     ports:
-      - "7011:3000"  # HTTP 
-      - "7099:3001"  # HTTPS 
+      - "7011:3000" # HTTP 
+      - "7099:3001" # HTTPS 
     restart: unless-stopped
     privileged: true
 
   suricata:
     image: stamus/suricata:latest
     container_name: suricata
-    network_mode: "host"  # Use only if you want to sniff actual host traffic
+    network_mode: "host" # Use only if you want to sniff actual host traffic
     volumes:
       - ./suricata:/etc/suricata
       - ./suricata/logs:/var/log/suricata
@@ -97,12 +103,11 @@ services:
       - ./suricata/logs/eve.json:/var/log/suricata/eve.json:ro
     restart: always
 
-
   velociraptor:
     build: ./velociraptor
     container_name: velociraptor
     ports:
-      - "7000:8889"  # External port 7000 mapped to GUI port 8889
+      - "7000:8889" # External port 7000 mapped to GUI port 8889
     volumes:
       - ./velociraptor:/velociraptor
     restart: unless-stopped
@@ -112,7 +117,7 @@ services:
     networks:
       - cyber-blue
 
-######MISP#######
+  ######MISP#######
   # This is capable to relay via gmail, Amazon SES, or generic relays
   # See: https://hub.docker.com/r/ixdotai/smtp
   mail:
@@ -141,7 +146,6 @@ services:
     networks:
       - cyber-blue
 
-
   db:
     # We use MariaDB because it supports ARM and has the expected collations
     image: mariadb:10.11
@@ -152,19 +156,11 @@ services:
       - "MYSQL_PASSWORD=${MYSQL_PASSWORD:-example}"
       - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-password}"
       - "MYSQL_DATABASE=${MYSQL_DATABASE:-misp}"
-    command: "\
-      --innodb-buffer-pool-size=${INNODB_BUFFER_POOL_SIZE:-2048M} \
-      --innodb-change-buffering=${INNODB_CHANGE_BUFFERING:-none} \
-      --innodb-io-capacity=${INNODB_IO_CAPACITY:-1000} \
-      --innodb-io-capacity-max=${INNODB_IO_CAPACITY_MAX:-2000} \
-      --innodb-log-file-size=${INNODB_LOG_FILE_SIZE:-600M} \
-      --innodb-read-io-threads=${INNODB_READ_IO_THREADS:-16} \
-      --innodb-stats-persistent=${INNODB_STATS_PERSISTENT:-ON} \
-      --innodb-write-io-threads=${INNODB_WRITE_IO_THREADS:-4}"
+    command: "--innodb-buffer-pool-size=${INNODB_BUFFER_POOL_SIZE:-2048M} --innodb-change-buffering=${INNODB_CHANGE_BUFFERING:-none} --innodb-io-capacity=${INNODB_IO_CAPACITY:-1000} --innodb-io-capacity-max=${INNODB_IO_CAPACITY_MAX:-2000} --innodb-log-file-size=${INNODB_LOG_FILE_SIZE:-600M} --innodb-read-io-threads=${INNODB_READ_IO_THREADS:-16} --innodb-stats-persistent=${INNODB_STATS_PERSISTENT:-ON} --innodb-write-io-threads=${INNODB_WRITE_IO_THREADS:-4}"
     volumes:
       - mysql_data:/var/lib/mysql
     cap_add:
-      - SYS_NICE  # CAP_SYS_NICE Prevent runaway mysql log
+      - SYS_NICE # CAP_SYS_NICE Prevent runaway mysql log
     healthcheck:
       test: mysqladmin --user=$$MYSQL_USER --password=$$MYSQL_PASSWORD status
       interval: 2s
@@ -183,22 +179,22 @@ services:
     build:
       context: misp/core/.
       args:
-          - CORE_TAG=${CORE_TAG:?Missing .env file, see README.md for instructions}
-          - CORE_COMMIT=${CORE_COMMIT}
-          - CORE_FLAVOR=${CORE_FLAVOR:-full}
-          - PHP_VER=${PHP_VER:?Missing .env file, see README.md for instructions}
-          - PYPI_REDIS_VERSION=${PYPI_REDIS_VERSION}
-          - PYPI_LIEF_VERSION=${PYPI_LIEF_VERSION}
-          - PYPI_PYDEEP2_VERSION=${PYPI_PYDEEP2_VERSION}
-          - PYPI_PYTHON_MAGIC_VERSION=${PYPI_PYTHON_MAGIC_VERSION}
-          - PYPI_MISP_LIB_STIX2_VERSION=${PYPI_MISP_LIB_STIX2_VERSION}
-          - PYPI_MAEC_VERSION=${PYPI_MAEC_VERSION}
-          - PYPI_MIXBOX_VERSION=${PYPI_MIXBOX_VERSION}
-          - PYPI_CYBOX_VERSION=${PYPI_CYBOX_VERSION}
-          - PYPI_PYMISP_VERSION=${PYPI_PYMISP_VERSION}
-          - PYPI_MISP_STIX_VERSION=${PYPI_MISP_STIX_VERSION}
-          - PYPI_SETUPTOOLS=${PYPI_SETUPTOOLS}
-          - PYPI_SUPERVISOR=${PYPI_SUPERVISOR}
+        - CORE_TAG=${CORE_TAG:?Missing .env file, see README.md for instructions}
+        - CORE_COMMIT=${CORE_COMMIT}
+        - CORE_FLAVOR=${CORE_FLAVOR:-full}
+        - PHP_VER=${PHP_VER:?Missing .env file, see README.md for instructions}
+        - PYPI_REDIS_VERSION=${PYPI_REDIS_VERSION}
+        - PYPI_LIEF_VERSION=${PYPI_LIEF_VERSION}
+        - PYPI_PYDEEP2_VERSION=${PYPI_PYDEEP2_VERSION}
+        - PYPI_PYTHON_MAGIC_VERSION=${PYPI_PYTHON_MAGIC_VERSION}
+        - PYPI_MISP_LIB_STIX2_VERSION=${PYPI_MISP_LIB_STIX2_VERSION}
+        - PYPI_MAEC_VERSION=${PYPI_MAEC_VERSION}
+        - PYPI_MIXBOX_VERSION=${PYPI_MIXBOX_VERSION}
+        - PYPI_CYBOX_VERSION=${PYPI_CYBOX_VERSION}
+        - PYPI_PYMISP_VERSION=${PYPI_PYMISP_VERSION}
+        - PYPI_MISP_STIX_VERSION=${PYPI_MISP_STIX_VERSION}
+        - PYPI_SETUPTOOLS=${PYPI_SETUPTOOLS}
+        - PYPI_SUPERVISOR=${PYPI_SUPERVISOR}
     depends_on:
       redis:
         condition: service_healthy
@@ -214,7 +210,6 @@ services:
       start_period: 30s
       start_interval: 30s
     ports:
-      - "80:80"
       - "7003:443"
     volumes:
       - "./configs/:/var/www/MISP/app/Config/"
@@ -404,10 +399,7 @@ services:
     networks:
       - cyber-blue
 
-
-
-
-#####END-MISP####
+  #####END-MISP####
 
 
 
@@ -417,55 +409,49 @@ services:
     ports:
       - "7004:8000"
 
-
-
-
   os01:
     image: opensearchproject/opensearch:$OS_VERSION
     ulimits:
-        nofile:
-            soft: 65535
-            hard: 65535
-        memlock:
-            soft: -1
-            hard: -1
+      nofile:
+        soft: 65535
+        hard: 65535
+      memlock:
+        soft: -1
+        hard: -1
     container_name: $OS_NODE1
     environment:
-        - node.name=$OS_NODE1
-        - bootstrap.memory_lock=true
-        - "OPENSEARCH_JAVA_OPTS=-Xms$OS_JAVA_MEM -Xmx$OS_JAVA_MEM"
-        - DISABLE_SECURITY_PLUGIN=true
-        - DISABLE_INSTALL_DEMO_CONFIG=true
-        - discovery.type=single-node
+      - node.name=$OS_NODE1
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms$OS_JAVA_MEM -Xmx$OS_JAVA_MEM"
+      - DISABLE_SECURITY_PLUGIN=true
+      - DISABLE_INSTALL_DEMO_CONFIG=true
+      - discovery.type=single-node
     networks:
-        - cyber-blue
-
+      - cyber-blue
 
   arkime:
     build:
-        context: ./arkime
-        dockerfile: Dockerfile
+      context: ./arkime
+      dockerfile: Dockerfile
     container_name: arkime
     depends_on:
-        - $OS_NODE1
-        # uncomment and add all OS node container names
-        # - $OS_NODE2
+      - $OS_NODE1
+      # uncomment and add all OS node container names
+      # - $OS_NODE2
     environment:
-        - OS_HOST=$OS_NODE1
-        - OS_PORT=9200
+      - OS_HOST=$OS_NODE1
+      - OS_PORT=9200
     ports:
-        - $ARKIME_PORT:8005
-        - "7008:8005"
+      - $ARKIME_PORT:8005
+      - "7008:8005"
     volumes:
-        - arkime_config:/data/config
-        - arkime_logs:/data/logs
-        - type: bind
-          source: $PCAP_DIR
-          target: /data/pcap
+      - arkime_config:/data/config
+      - arkime_logs:/data/logs
+      - type: bind
+        source: $PCAP_DIR
+        target: /data/pcap
     networks:
-        - cyber-blue
-
-
+      - cyber-blue
 
   fleet-redis:
     image: redis:6.2
@@ -486,7 +472,7 @@ services:
       MYSQL_USER: fleet
       MYSQL_PASSWORD: fleetpass
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-pfleetroot"]
+      test: [ "CMD", "mysqladmin", "ping", "-pfleetroot" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -504,7 +490,7 @@ services:
       fleet-redis:
         condition: service_started
     ports:
-      - "7007:8080"  # Fleet Web UI
+      - "7007:8080" # Fleet Web UI
     environment:
       FLEET_MYSQL_USERNAME: fleet
       FLEET_MYSQL_PASSWORD: fleetpass
@@ -518,7 +504,6 @@ services:
       - fleet-server-data:/var/lib/fleet
     networks:
       - cyber-blue
-
 
   thehive:
     image: strangebee/thehive:5.3.9-1
@@ -609,7 +594,6 @@ services:
     depends_on:
       - generator
 
-
   wazuh.indexer:
     image: wazuh/wazuh-indexer:4.12.0
     container_name: wazuh-indexer
@@ -637,7 +621,6 @@ services:
       - ./wazuh/config/wazuh_indexer/internal_users.yml:/usr/share/wazuh-indexer/opensearch-security/internal_users.yml
     depends_on:
       - generator
-
 
   wazuh.dashboard:
     image: wazuh/wazuh-dashboard:4.12.0
@@ -669,7 +652,6 @@ services:
       - wazuh.indexer:wazuh.indexer
       - wazuh.manager:wazuh.manager
 
-
   opensearch-init:
     image: alpine
     container_name: opensearch-init
@@ -677,7 +659,6 @@ services:
       - ./shuffle/shuffle-database:/usr/share/opensearch/data
     command: chown -R 1000:1000 /usr/share/opensearch/data
     restart: "no"
-
 
   shuffle-frontend:
     image: ghcr.io/shuffle/shuffle-frontend:latest
@@ -755,7 +736,7 @@ services:
         soft: -1
         hard: -1
       nofile:
-        soft: 65536 
+        soft: 65536
         hard: 65536
     volumes:
       - ./shuffle/shuffle-database:/usr/share/opensearch/data:z
@@ -787,7 +768,6 @@ services:
       - NET_ADMIN
     security_opt:
       - seccomp:unconfined
-
 
 volumes:
   wazuh_api_configuration:

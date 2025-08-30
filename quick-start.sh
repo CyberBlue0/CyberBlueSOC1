@@ -62,9 +62,10 @@ EOF
     log ""
     log "${WHITE}📖 Next Steps:${NC}"
     log "${YELLOW}   1. Visit the portal to verify all services${NC}"
-    log "${YELLOW}   2. Review SECURITY.md for hardening steps${NC}"
-    log "${YELLOW}   3. Change default passwords immediately${NC}"
-    log "${YELLOW}   4. Configure individual tools as needed${NC}"
+    log "${YELLOW}   2. Access Arkime at http://${HOST_IP}:7008 (admin/admin)${NC}"
+    log "${YELLOW}   3. Review SECURITY.md for hardening steps${NC}"
+    log "${YELLOW}   4. Change default passwords immediately${NC}"
+    log "${YELLOW}   5. Configure individual tools as needed${NC}"
 }
 
 # Error handling

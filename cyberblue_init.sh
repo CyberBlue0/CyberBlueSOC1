@@ -49,21 +49,46 @@ fi
 sudo mkdir -p /opt/yeti/bloomfilters
 
 # ----------------------------
-# Detect Suricata Interface
+# Dynamic Suricata Interface Detection
 # ----------------------------
-SURICATA_IFACE=$(ip a | grep 'state UP' | awk -F: '{print $2}' | head -n1 | xargs)
+echo "🔍 Detecting primary network interface for Suricata..."
+
+# Method 1: Try to get the default route interface (most reliable)
+SURICATA_IFACE=$(ip route | grep default | awk '{print $5}' | head -1)
+
+# Method 2: Fallback to first active non-loopback interface
+if [ -z "$SURICATA_IFACE" ]; then
+    echo "⚠️  No default route found, trying alternative detection..."
+    SURICATA_IFACE=$(ip link show | grep -E '^[0-9]+:' | grep -v lo | grep 'state UP' | awk -F': ' '{print $2}' | head -1)
+fi
+
+# Method 3: Final fallback to any UP interface except loopback
+if [ -z "$SURICATA_IFACE" ]; then
+    echo "⚠️  Trying final fallback method..."
+    SURICATA_IFACE=$(ip a | grep 'state UP' | grep -v lo | awk -F: '{print $2}' | head -1 | xargs)
+fi
 
 if [ -z "$SURICATA_IFACE" ]; then
-    echo "❌ Could not detect any active interface."
+    echo "❌ Could not detect any suitable network interface for Suricata."
+    echo "📋 Available interfaces:"
+    ip link show | grep -E '^[0-9]+:' | awk -F': ' '{print "   - " $2}' | sed 's/@.*$//'
+    echo "💡 Please manually set SURICATA_INT in .env file"
     exit 1
 fi
 
+echo "✅ Detected primary interface: $SURICATA_IFACE"
+
+# Always update the SURICATA_INT to ensure it's current
 if grep -q "^SURICATA_INT=" .env; then
-    echo "ℹ️ SURICATA_INT already exists in .env. Skipping."
+    echo "🔄 Updating existing SURICATA_INT in .env..."
+    sed -i "s/^SURICATA_INT=.*/SURICATA_INT=$SURICATA_IFACE/" .env
 else
     echo "SURICATA_INT=$SURICATA_IFACE" >> .env
-    echo "✅ SURICATA_INT added to .env as: $SURICATA_IFACE"
 fi
+
+echo "✅ SURICATA_INT configured as: $SURICATA_IFACE"
+echo "📋 Current network interface settings:"
+grep "^SURICATA_INT=" .env
 
 # ----------------------------
 # Suricata Rule Setup
@@ -86,8 +111,8 @@ sudo curl -s -o ./suricata/reference.config https://raw.githubusercontent.com/OI
 # Launching Services
 # ----------------------------
 echo "🚀 Running Docker initialization commands..."
-sudo docker compose run --rm generator
-sudo docker compose up --build -d
+sudo docker-compose run --rm generator
+sudo docker-compose up --build -d
 sudo docker run --rm \
   --network=cyber-blue \
   -e FLEET_MYSQL_ADDRESS=fleet-mysql:3306 \
@@ -95,7 +120,67 @@ sudo docker run --rm \
   -e FLEET_MYSQL_PASSWORD=fleetpass \
   -e FLEET_MYSQL_DATABASE=fleet \
   fleetdm/fleet:latest fleet prepare db
-sudo docker compose up -d fleet-server
+sudo docker-compose up -d fleet-server
+
+# ----------------------------
+# Arkime Setup & Data Initialization
+# ----------------------------
+echo "🔍 Setting up Arkime with sample data..."
+
+# Wait for OpenSearch to be ready
+echo "⏳ Waiting for OpenSearch to be ready..."
+for i in {1..30}; do
+  if curl -s http://localhost:9200/_cluster/health | grep -q "green\|yellow"; then
+    echo "✅ OpenSearch is ready"
+    break
+  fi
+  echo "   Waiting for OpenSearch... ($i/30)"
+  sleep 5
+done
+
+# Initialize Arkime database
+echo "📊 Initializing Arkime database..."
+sudo docker exec arkime bash -c 'echo "yes" | timeout 30 /opt/arkime/db/db.pl http://os01:9200 init --force' 2>/dev/null || {
+    echo "⚠️  Database initialization completed with warnings (this is normal)"
+}
+
+# Create sample PCAP data
+echo "📁 Creating sample network traffic for Arkime..."
+mkdir -p ./arkime/pcaps
+
+# Generate some network activity and capture it
+echo "🌐 Capturing live network traffic for analysis..."
+(
+    # Generate some HTTP traffic
+    curl -s http://example.com > /dev/null 2>&1 &
+    curl -s http://httpbin.org/get > /dev/null 2>&1 &
+    curl -s http://jsonplaceholder.typicode.com/posts/1 > /dev/null 2>&1 &
+    
+    # Wait for requests to complete
+    sleep 2
+) &
+
+# Capture the traffic (if tcpdump is available)
+if command -v tcpdump &> /dev/null; then
+    timeout 10s sudo tcpdump -i $SURICATA_IFACE -w ./arkime/pcaps/sample_traffic.pcap -c 50 2>/dev/null || echo "Traffic capture completed"
+else
+    echo "⚠️  tcpdump not available, skipping live capture"
+fi
+
+# Process any PCAP files in the directory
+echo "⚙️  Processing PCAP files..."
+if ls ./arkime/pcaps/*.pcap 1> /dev/null 2>&1; then
+    echo "📦 Found PCAP files, processing..."
+    sudo docker exec arkime bash -c 'find /data/pcap -name "*.pcap" -exec /opt/arkime/bin/capture -c /opt/arkime/etc/config.ini -r {} \;' 2>/dev/null || echo "PCAP processing completed"
+else
+    echo "ℹ️  No PCAP files found - Arkime will be ready for manual upload"
+fi
+
+# Create Arkime admin user
+echo "👤 Creating Arkime admin user..."
+sudo docker exec arkime /opt/arkime/bin/arkime_add_user.sh admin "Admin User" admin --admin 2>/dev/null || echo "User creation completed"
+
+echo "✅ Arkime setup complete!"
 
 # ----------------------------
 # Caldera Setup

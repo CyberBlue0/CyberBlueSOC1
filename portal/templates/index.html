@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>CyberBlueSOC</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%231e3a8a'/><stop offset='25%' style='stop-color:%231e40af'/><stop offset='50%' style='stop-color:%233b82f6'/><stop offset='75%' style='stop-color:%2360a5fa'/><stop offset='100%' style='stop-color:%2393c5fd'/></linearGradient></defs><polygon points='0,0 100,0 50,100' fill='url(%23grad)'/></svg>">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%231e3a8a'/><stop offset='25%' style='stop-color:%231e40af'/><stop offset='50%' style='stop-color:%233b82f6'/><stop offset='75%' style='stop-color:%2360a5fa'/><stop offset='100%' style='stop-color:%2393c5fd'/></linearGradient></defs><polygon points='0,0 100,0 50,100' fill='url(%23grad)'/></svg>">
     <!-- Google Fonts - Modern & Elegant -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
+
     <style>
         /* Modern Typography & Variables */
         :root {
@@ -102,28 +106,59 @@
 
         /* Modern Animations */
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
         }
 
         @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.9; }
-            100% { transform: scale(1.03); opacity: 1; }
+            0% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+
+            100% {
+                transform: scale(1.03);
+                opacity: 1;
+            }
         }
 
         @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
         }
 
         @keyframes fadeInUp {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         :root {
@@ -354,6 +389,7 @@
                 opacity: 0;
                 transform: scale(0.8) translateY(-20px);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1) translateY(0);
@@ -592,19 +628,45 @@
         }
 
         @keyframes statusPulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
         }
 
         @keyframes statusGlow {
-            0%, 100% { box-shadow: 0 0 15px rgba(0, 255, 136, 0.6); }
-            50% { box-shadow: 0 0 25px rgba(0, 255, 136, 0.8), 0 0 35px rgba(0, 255, 136, 0.4); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+            }
+
+            50% {
+                box-shadow: 0 0 25px rgba(0, 255, 136, 0.8), 0 0 35px rgba(0, 255, 136, 0.4);
+            }
         }
 
         @keyframes statusWarning {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            25% { transform: scale(1.1) rotate(-2deg); }
-            75% { transform: scale(1.1) rotate(2deg); }
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            25% {
+                transform: scale(1.1) rotate(-2deg);
+            }
+
+            75% {
+                transform: scale(1.1) rotate(2deg);
+            }
         }
 
         /* Enhanced Tool Header */
@@ -1098,7 +1160,7 @@
             position: relative;
         }
 
-        .search-input:focus + .search-suggestions {
+        .search-input:focus+.search-suggestions {
             display: block;
         }
 
@@ -1134,12 +1196,29 @@
         }
 
         /* Animation Delays for Staggered Effects */
-        .tool-card:nth-child(1) { animation-delay: 0.1s; }
-        .tool-card:nth-child(2) { animation-delay: 0.2s; }
-        .tool-card:nth-child(3) { animation-delay: 0.3s; }
-        .tool-card:nth-child(4) { animation-delay: 0.4s; }
-        .tool-card:nth-child(5) { animation-delay: 0.5s; }
-        .tool-card:nth-child(6) { animation-delay: 0.6s; }
+        .tool-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .tool-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .tool-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .tool-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .tool-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .tool-card:nth-child(6) {
+            animation-delay: 0.6s;
+        }
 
         /* Custom Notification System */
         .custom-notification {
@@ -1182,6 +1261,7 @@
                 transform: translateX(100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
@@ -1193,6 +1273,7 @@
                 transform: translateX(0);
                 opacity: 1;
             }
+
             to {
                 transform: translateX(100%);
                 opacity: 0;
@@ -1242,6 +1323,7 @@
                 transform: translateX(100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
@@ -1280,13 +1362,25 @@
 
         /* Cybersecurity Blue Team Animations */
         @keyframes triangleFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
         }
 
         @keyframes triangleGlow {
-            0% { box-shadow: 0 0 25px rgba(59, 130, 246, 0.5); }
-            100% { box-shadow: 0 0 35px rgba(59, 130, 246, 0.8); }
+            0% {
+                box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
+            }
+
+            100% {
+                box-shadow: 0 0 35px rgba(59, 130, 246, 0.8);
+            }
         }
 
         /* Smart Space Utilization - Full Width Layout */
@@ -1500,6 +1594,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="main-container">
         <!-- Left Sidebar - Branding -->
@@ -1513,7 +1608,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Mini Status Dashboard - Under Branding -->
             <div class="mini-dashboard">
                 <h6 class="dashboard-title">System Status</h6>
@@ -1550,154 +1645,162 @@
         <!-- Right Main Content -->
         <div class="content-main">
 
-        <!-- Navigation Tabs -->
-        <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">Overview</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="tools-tab" data-bs-toggle="tab" data-bs-target="#tools" type="button" role="tab">Tools</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="metrics-tab" data-bs-toggle="tab" data-bs-target="#metrics" type="button" role="tab">Metrics</button>
-            </li>
-        </ul>
+            <!-- Navigation Tabs -->
+            <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview"
+                        type="button" role="tab">Overview</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="tools-tab" data-bs-toggle="tab" data-bs-target="#tools"
+                        type="button" role="tab">Tools</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="metrics-tab" data-bs-toggle="tab" data-bs-target="#metrics"
+                        type="button" role="tab">Metrics</button>
+                </li>
+            </ul>
 
-        <!-- Enhanced Search and Filtering Section -->
-        <div class="search-filter-section mb-4">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <div class="search-container position-relative">
-                        <input type="text" id="toolSearch" class="form-control search-input" 
-                               placeholder="Search tools... (type to see suggestions)" autocomplete="off">
-                        <div id="searchSuggestions" class="search-suggestions"></div>
+            <!-- Enhanced Search and Filtering Section -->
+            <div class="search-filter-section mb-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="search-container position-relative">
+                            <input type="text" id="toolSearch" class="form-control search-input"
+                                placeholder="Search tools... (type to see suggestions)" autocomplete="off">
+                            <div id="searchSuggestions" class="search-suggestions"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="statusFilter" class="form-control filter-select">
+                            <option value="">All Status</option>
+                            <option value="running">Running Only</option>
+                            <option value="stopped">Stopped Only</option>
+                            <option value="warning">Warning</option>
+                            <option value="unknown">Unknown</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="categoryFilter" class="form-select">
+                            <option value="">All Categories</option>
+                            <option value="siem">SIEM (1 tool)</option>
+                            <option value="threat intel">Threat Intel (1 tool)</option>
+                            <option value="network analysis">Network Analysis (1 tool)</option>
+                            <option value="soar">SOAR (3 tools)</option>
+                            <option value="endpoint management">Endpoint Management (1 tool)</option>
+                            <option value="attack simulation">Attack Simulation (1 tool)</option>
+                            <option value="management">Management (1 tool)</option>
+                            <option value="intrusion detection">Intrusion Detection (1 tool)</option>
+                            <option value="vulnerability management">Vulnerability Management (1 tool)</option>
+                            <option value="dfir">DFIR (1 tool)</option>
+                        </select>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <select id="statusFilter" class="form-control filter-select">
-                        <option value="">All Status</option>
-                        <option value="running">Running Only</option>
-                        <option value="stopped">Stopped Only</option>
-                        <option value="warning">Warning</option>
-                        <option value="unknown">Unknown</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select id="categoryFilter" class="form-select">
-                        <option value="">All Categories</option>
-                        <option value="siem">SIEM (1 tool)</option>
-                        <option value="threat intel">Threat Intel (1 tool)</option>
-                        <option value="network analysis">Network Analysis (1 tool)</option>
-                        <option value="soar">SOAR (3 tools)</option>
-                        <option value="endpoint management">Endpoint Management (1 tool)</option>
-                        <option value="attack simulation">Attack Simulation (1 tool)</option>
-                        <option value="management">Management (1 tool)</option>
-                        <option value="intrusion detection">Intrusion Detection (1 tool)</option>
-                        <option value="vulnerability management">Vulnerability Management (1 tool)</option>
-                        <option value="dfir">DFIR (1 tool)</option>
-                    </select>
+
+                <!-- Quick Filter Buttons -->
+                <div class="quick-filters mt-3">
+                    <button class="btn btn-quick-filter active" data-filter="all">Show All</button>
+                    <button class="btn btn-quick-filter" data-filter="running">Running Only</button>
+                    <button class="btn btn-quick-filter" data-filter="stopped">Stopped Only</button>
+                    <button class="btn btn-quick-filter" data-filter="critical">Critical Tools</button>
+                    <button class="btn btn-quick-filter" data-filter="recent">Recently Started</button>
                 </div>
             </div>
-            
-            <!-- Quick Filter Buttons -->
-            <div class="quick-filters mt-3">
-                <button class="btn btn-quick-filter active" data-filter="all">Show All</button>
-                <button class="btn btn-quick-filter" data-filter="running">Running Only</button>
-                <button class="btn btn-quick-filter" data-filter="stopped">Stopped Only</button>
-                <button class="btn btn-quick-filter" data-filter="critical">Critical Tools</button>
-                <button class="btn btn-quick-filter" data-filter="recent">Recently Started</button>
-            </div>
-        </div>
 
-        <!-- Smart Notification Center -->
-        <div id="notificationCenter" class="notification-center"></div>
+            <!-- Smart Notification Center -->
+            <div id="notificationCenter" class="notification-center"></div>
 
-        <!-- Enhanced Bulk Operations Bar -->
-        <div class="bulk-operations-bar mb-4">
-            <div class="row align-items-center">
-                <div class="col-md-3">
-                    <div class="selection-info">
-                        <input type="checkbox" id="selectAllTools" class="form-check-input me-2">
-                        <label for="selectAllTools" class="form-check-label">
-                            <span id="selectedCount">0 tools selected</span>
-                        </label>
+            <!-- Enhanced Bulk Operations Bar -->
+            <div class="bulk-operations-bar mb-4">
+                <div class="row align-items-center">
+                    <div class="col-md-3">
+                        <div class="selection-info">
+                            <input type="checkbox" id="selectAllTools" class="form-check-input me-2">
+                            <label for="selectAllTools" class="form-check-label">
+                                <span id="selectedCount">0 tools selected</span>
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="bulk-actions">
-                        <button class="btn btn-outline-success btn-sm" onclick="bulkOperation('start')" id="bulkStartBtn" disabled>
-                            <i class="fas fa-play me-1"></i>Start All
-                        </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="bulkOperation('restart')" id="bulkRestartBtn" disabled>
-                            <i class="fas fa-redo me-1"></i>Restart All
-                        </button>
-                        <button class="btn btn-outline-danger btn-sm" onclick="bulkOperation('stop')" id="bulkStopBtn" disabled>
-                            <i class="fas fa-stop me-1"></i>Stop All
-                        </button>
-                        <button class="btn btn-outline-info btn-sm" onclick="bulkOperation('info')" id="bulkInfoBtn" disabled>
-                            <i class="fas fa-info-circle me-1"></i>Info All
+                    <div class="col-md-6">
+                        <div class="bulk-actions">
+                            <button class="btn btn-outline-success btn-sm" onclick="bulkOperation('start')"
+                                id="bulkStartBtn" disabled>
+                                <i class="fas fa-play me-1"></i>Start All
+                            </button>
+                            <button class="btn btn-outline-warning btn-sm" onclick="bulkOperation('restart')"
+                                id="bulkRestartBtn" disabled>
+                                <i class="fas fa-redo me-1"></i>Restart All
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm" onclick="bulkOperation('stop')"
+                                id="bulkStopBtn" disabled>
+                                <i class="fas fa-stop me-1"></i>Stop All
+                            </button>
+                            <button class="btn btn-outline-info btn-sm" onclick="bulkOperation('info')" id="bulkInfoBtn"
+                                disabled>
+                                <i class="fas fa-info-circle me-1"></i>Info All
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-end">
+                        <button class="btn btn-outline-secondary btn-sm" onclick="clearSelection()">
+                            <i class="fas fa-times me-1"></i>Clear Selection
                         </button>
                     </div>
                 </div>
-                <div class="col-md-3 text-end">
-                    <button class="btn btn-outline-secondary btn-sm" onclick="clearSelection()">
-                        <i class="fas fa-times me-1"></i>Clear Selection
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Bulk Operation Progress -->
-            <div id="bulkProgress" class="bulk-progress mt-3" style="display: none;">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
-                         id="bulkProgressBar" role="progressbar" style="width: 0%"></div>
-                </div>
-                <div class="progress-text mt-2">
-                    <small class="text-muted" id="bulkProgressText">Preparing operation...</small>
-                </div>
-            </div>
-        </div>
 
-        <!-- Tab Content -->
-        <div class="tab-content" id="dashboardTabContent">
-            <!-- Overview Tab -->
-            <div class="tab-pane fade" id="overview" role="tabpanel">
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <div class="alert alert-info">
-                            <h5><i class="fas fa-info-circle me-2"></i>Portal Status</h5>
-                            <p>This is the NEW WORKING VERSION of the CyberBlue Portal. All JavaScript errors have been eliminated.</p>
-                            <p>Current time: <span id="currentTime"></span></p>
+                <!-- Bulk Operation Progress -->
+                <div id="bulkProgress" class="bulk-progress mt-3" style="display: none;">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" id="bulkProgressBar"
+                            role="progressbar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text mt-2">
+                        <small class="text-muted" id="bulkProgressText">Preparing operation...</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="dashboardTabContent">
+                <!-- Overview Tab -->
+                <div class="tab-pane fade" id="overview" role="tabpanel">
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="alert alert-info">
+                                <h5><i class="fas fa-info-circle me-2"></i>Portal Status</h5>
+                                <p>This is the NEW WORKING VERSION of the CyberBlue Portal. All JavaScript errors have
+                                    been eliminated.</p>
+                                <p>Current time: <span id="currentTime"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools Tab -->
+                <div class="tab-pane fade show active" id="tools" role="tabpanel">
+                    <div id="toolsList" class="tools-grid">
+                        <!-- Tools will be loaded here -->
+                    </div>
+
+                    <div id="noResultsMessage" class="text-center mt-4" style="display: none;">
+                        <i class="fas fa-search-minus fa-3x text-muted mb-3"></i>
+                        <h5>No tools found</h5>
+                        <p class="text-muted">Try adjusting your search criteria</p>
+                    </div>
+                </div>
+
+                <!-- Metrics Tab -->
+                <div class="tab-pane fade" id="metrics" role="tabpanel">
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="alert alert-success">
+                                <h5><i class="fas fa-chart-line me-2"></i>Metrics Dashboard</h5>
+                                <p>This section will display system metrics and performance data.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Tools Tab -->
-            <div class="tab-pane fade show active" id="tools" role="tabpanel">
-                <div id="toolsList" class="tools-grid">
-                    <!-- Tools will be loaded here -->
-                </div>
-
-                <div id="noResultsMessage" class="text-center mt-4" style="display: none;">
-                    <i class="fas fa-search-minus fa-3x text-muted mb-3"></i>
-                    <h5>No tools found</h5>
-                    <p class="text-muted">Try adjusting your search criteria</p>
-                </div>
-            </div>
-
-            <!-- Metrics Tab -->
-            <div class="tab-pane fade" id="metrics" role="tabpanel">
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <div class="alert alert-success">
-                            <h5><i class="fas fa-chart-line me-2"></i>Metrics Dashboard</h5>
-                            <p>This section will display system metrics and performance data.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         </div>
     </div>
 
@@ -1759,7 +1862,7 @@
                 console.log('Detecting server IP...');
                 const response = await fetch('/api/server-info');
                 const data = await response.json();
-                
+
                 if (data.server_ip) {
                     serverIP = data.server_ip;
                     console.log('Dynamically detected server IP:', serverIP);
@@ -1784,24 +1887,24 @@
                     fetch('/api/tools'),
                     fetch('/api/containers/tools')
                 ]);
-                
+
                 const toolsData = await toolsResponse.json();
                 const statusData = await statusResponse.json();
-                
+
                 allTools = toolsData.tools || [];
                 containerStatuses = statusData.tool_containers || {};
-                
+
                 console.log('Tools loaded:', allTools.length);
                 console.log('Container statuses:', Object.keys(containerStatuses).length);
-                
+
                 renderTools(allTools, containerStatuses);
                 loadMetrics();
-                
+
                 // Update mini dashboard with real data
                 updateMiniDashboard();
             } catch (error) {
                 console.error('Error loading tools:', error);
-                document.getElementById('toolsList').innerHTML = 
+                document.getElementById('toolsList').innerHTML =
                     '<div class="alert alert-danger">Error loading tools. Please check the console for details.</div>';
             }
         }
@@ -1859,10 +1962,10 @@
             tools.forEach(tool => {
                 const toolKey = getContainerStatusKey(tool.name);
                 const status = containerStatuses[toolKey] || { status: 'unknown', status_text: 'Unknown' };
-                const statusClass = status.status === 'running' ? 'status-running' : 
-                                  status.status === 'stopped' ? 'status-stopped' : 
-                                  status.status === 'warning' ? 'status-warning' : 'status-unknown';
-                
+                const statusClass = status.status === 'running' ? 'status-running' :
+                    status.status === 'stopped' ? 'status-stopped' :
+                        status.status === 'warning' ? 'status-warning' : 'status-unknown';
+
                 const category = getToolCategory(tool.name);
                 const categoryColor = getCategoryColor(category);
 
@@ -1871,7 +1974,7 @@
                 toolCard.dataset.toolKey = toolKey;
                 toolCard.dataset.category = category;
                 toolCard.style.borderLeftColor = categoryColor;
-                
+
                 toolCard.innerHTML = `
                     <div class="tool-header">
                         <div class="d-flex align-items-center justify-content-between">
@@ -1919,7 +2022,7 @@
                         </div>
                     </div>
                 `;
-                
+
                 container.appendChild(toolCard);
             });
 
@@ -1932,7 +2035,7 @@
             try {
                 const response = await fetch('/api/dashboard/metrics');
                 const data = await response.json();
-                
+
                 // Update overview metrics
                 document.getElementById('totalContainers').textContent = data.containers?.total || '--';
                 document.getElementById('healthPercentage').textContent = data.containers?.health_percentage || '--';
@@ -2001,18 +2104,18 @@
         function showContainerNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = `container-notification ${type}`;
-            
+
             // Add icon based on type
             let icon = 'ℹ️';
             if (type === 'success') icon = '✅';
             if (type === 'error') icon = '❌';
             if (type === 'warning') icon = '⚠️';
-            
+
             notification.innerHTML = `${icon} ${message}`;
-            
+
             // Add to page
             document.body.appendChild(notification);
-            
+
             // Auto-remove after 3 seconds
             setTimeout(() => {
                 if (notification.parentNode) {
@@ -2038,12 +2141,12 @@
             try {
                 // Show loading notification
                 showContainerNotification(`🔄 ${action.charAt(0).toUpperCase() + action.slice(1)}ing container...`, 'info');
-                
+
                 const response = await fetch(`/api/containers/${toolKey}/${action}`, {
                     method: 'POST'
                 });
                 const data = await response.json();
-                
+
                 if (data.success) {
                     showContainerSuccess(`✅ Container ${action} successful!`);
                     // Refresh tools to show updated status
@@ -2064,7 +2167,7 @@
 
             if (searchInput) {
                 searchInput.addEventListener('input', filterTools);
-                searchInput.addEventListener('keyup', function(e) {
+                searchInput.addEventListener('keyup', function (e) {
                     if (e.key === 'Enter') {
                         filterTools();
                     }
@@ -2099,8 +2202,8 @@
             document.querySelectorAll('.tool-card').forEach(card => {
                 const toolName = card.querySelector('.tool-header h6').textContent.toLowerCase();
                 const toolDescription = card.querySelector('.tool-description').textContent.toLowerCase();
-                const toolStatus = card.querySelector('.status-indicator').className.includes('status-running') ? 'running' : 
-                                 card.querySelector('.status-indicator').className.includes('status-stopped') ? 'stopped' : 'unknown';
+                const toolStatus = card.querySelector('.status-indicator').className.includes('status-running') ? 'running' :
+                    card.querySelector('.status-indicator').className.includes('status-stopped') ? 'stopped' : 'unknown';
                 const toolCategory = card.dataset.category || 'other';
 
                 let visible = true;
@@ -2136,22 +2239,22 @@
         }
 
         // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', async function() {
+        document.addEventListener('DOMContentLoaded', async function () {
             console.log('CyberBlue Portal loaded successfully!');
-            
+
             // First detect the server IP, then initialize the portal
             await detectServerIP();
-            
+
             // Initialize the portal
             loadTools();
             loadMetrics();
             setupSearchAndFilter();
             setupToolSelection();
             startAutoRefresh();
-            
+
             // Update mini dashboard
             updateMiniDashboard();
-            
+
             // Set up time updates
             updateTime();
             setInterval(updateTime, 1000);
@@ -2167,9 +2270,9 @@
                 <span>${message}</span>
                 <button class="close-btn" onclick="this.parentElement.remove()">&times;</button>
             `;
-            
+
             notificationCenter.appendChild(notification);
-            
+
             // Auto-remove after duration
             setTimeout(() => {
                 if (notification.parentElement) {
@@ -2212,7 +2315,7 @@
                         method: 'POST'
                     });
                     const result = await response.json();
-                    
+
                     if (result.success) {
                         successCount++;
                         results.push({ tool: toolName, success: true, message: 'Success' });
@@ -2245,8 +2348,8 @@
         function setupToolSelection() {
             const selectAllCheckbox = document.getElementById('selectAllTools');
             const toolCheckboxes = document.querySelectorAll('.tool-card input[type="checkbox"]');
-            
-            selectAllCheckbox.addEventListener('change', function() {
+
+            selectAllCheckbox.addEventListener('change', function () {
                 toolCheckboxes.forEach(checkbox => {
                     checkbox.checked = this.checked;
                 });
@@ -2261,9 +2364,9 @@
         function updateBulkOperationButtons() {
             const selectedCount = document.querySelectorAll('.tool-card input[type="checkbox"]:checked').length;
             const bulkButtons = ['bulkStartBtn', 'bulkRestartBtn', 'bulkStopBtn', 'bulkInfoBtn'];
-            
+
             document.getElementById('selectedCount').textContent = `${selectedCount} tools selected`;
-            
+
             bulkButtons.forEach(btnId => {
                 const btn = document.getElementById(btnId);
                 if (btn) {
@@ -2288,7 +2391,7 @@
 
         // Auto-refresh functionality
         let autoRefreshInterval;
-        
+
         function startAutoRefresh() {
             if (autoRefreshInterval) clearInterval(autoRefreshInterval);
             autoRefreshInterval = setInterval(() => {
@@ -2313,7 +2416,7 @@
             }
 
             let credentialsHTML = '';
-            
+
             // Tool-specific credentials - only change the ones specified by user
             switch (toolName.toLowerCase()) {
                 case 'the hive':
@@ -2391,12 +2494,12 @@
                         credentialsHTML = `
                             <div class="credentials-field">
                                 <label>Username:</label>
-                                <span>${Array.isArray(tool.credentials.username) 
-                                    ? tool.credentials.username.join(', ') 
-                                    : tool.credentials.username || 'N/A'}</span>
-                                ${tool.credentials.username && !Array.isArray(tool.credentials.username) 
-                                    ? `<button class="copy-btn" onclick="copyToClipboard('${tool.credentials.username}')">Copy</button>` 
-                                    : ''}
+                                <span>${Array.isArray(tool.credentials.username)
+                                ? tool.credentials.username.join(', ')
+                                : tool.credentials.username || 'N/A'}</span>
+                                ${tool.credentials.username && !Array.isArray(tool.credentials.username)
+                                ? `<button class="copy-btn" onclick="copyToClipboard('${tool.credentials.username}')">Copy</button>`
+                                : ''}
                             </div>
                             <div class="credentials-field">
                                 <label>Password:</label>
@@ -2479,17 +2582,17 @@
             const notification = document.createElement('div');
             notification.className = `custom-notification ${type}`;
             notification.textContent = message;
-            
+
             // Add icon based on type
             let icon = 'ℹ️';
             if (type === 'success') icon = '✅';
             if (type === 'error') icon = '❌';
             if (type === 'warning') icon = '⚠️';
-            
+
             notification.innerHTML = `${icon} ${message}`;
-            
+
             document.body.appendChild(notification);
-            
+
             // Auto-remove after 2 seconds
             setTimeout(() => {
                 notification.classList.add('fade-out');
@@ -2508,7 +2611,7 @@
             const toolCards = document.querySelectorAll('.tool-card');
             toolCards.forEach(card => {
                 card.classList.add('selectable');
-                card.onclick = function(e) {
+                card.onclick = function (e) {
                     if (!e.target.closest('button') && !e.target.closest('a')) {
                         toggleToolSelection(this);
                     }
@@ -2561,7 +2664,7 @@
         function generateToolInfoHTML(tool) {
             const toolKey = getContainerStatusKey(tool.name);
             const status = containerStatuses[toolKey] || { status: 'unknown', status_text: 'Unknown' };
-            
+
             return `
                 <div class="tool-info-section">
                     <h5><i class="fas fa-info-circle me-2"></i>Overview</h5>
@@ -2582,18 +2685,18 @@
                 <div class="tool-info-section">
                     <h5><i class="fas fa-key me-2"></i>Access Information</h5>
                     <p><strong>URL:</strong> <code>${tool.protocols[0]}://${getServerIP()}:${tool.port}</code></p>
-                    ${tool.credentials?.username ? 
-                        `<p><strong>Username:</strong> <code>${Array.isArray(tool.credentials.username) ? tool.credentials.username.join(', ') : tool.credentials.username}</code></p>` : 
-                        ''
-                    }
-                    ${tool.credentials?.password ? 
-                        `<p><strong>Password:</strong> <code>${tool.credentials.password}</code></p>` : 
-                        ''
-                    }
-                    ${tool.credentials?.note ? 
-                        `<p><strong>Note:</strong> ${tool.credentials.note}</p>` : 
-                        ''
-                    }
+                    ${tool.credentials?.username ?
+                    `<p><strong>Username:</strong> <code>${Array.isArray(tool.credentials.username) ? tool.credentials.username.join(', ') : tool.credentials.username}</code></p>` :
+                    ''
+                }
+                    ${tool.credentials?.password ?
+                    `<p><strong>Password:</strong> <code>${tool.credentials.password}</code></p>` :
+                    ''
+                }
+                    ${tool.credentials?.note ?
+                    `<p><strong>Note:</strong> ${tool.credentials.note}</p>` :
+                    ''
+                }
                 </div>
 
                 <div class="tool-info-section">
@@ -2621,7 +2724,7 @@
         }
 
         // Close modal when clicking outside
-        document.getElementById('credentialsModal').addEventListener('click', function(e) {
+        document.getElementById('credentialsModal').addEventListener('click', function (e) {
             if (e.target === this) {
                 closeCredentialsModal();
             }
@@ -2630,14 +2733,14 @@
 
 
         // Close tool info modal when clicking outside
-        document.getElementById('toolInfoModal').addEventListener('click', function(e) {
+        document.getElementById('toolInfoModal').addEventListener('click', function (e) {
             if (e.target === this) {
                 closeToolInfoModal();
             }
         });
 
         // Close modals with Escape key
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.target === this) {
                 closeCredentialsModal();
                 closeToolInfoModal();
@@ -2649,7 +2752,7 @@
             try {
                 const response = await fetch('/api/tools');
                 const data = await response.json();
-                
+
                 if (data.tools && data.tools.length > 0) {
                     // Count running containers
                     const runningCount = data.tools.filter(tool => {
@@ -2657,15 +2760,15 @@
                         const status = containerStatuses[toolKey];
                         return status && status.status === 'running';
                     }).length;
-                    
+
                     // Calculate system health based on running containers
                     const totalTools = data.tools.length;
                     const healthPercentage = totalTools > 0 ? Math.round((runningCount / totalTools) * 100) : 0;
-                    const healthStatus = healthPercentage >= 80 ? 'Excellent' : 
-                                       healthPercentage >= 60 ? 'Good' : 
-                                       healthPercentage >= 40 ? 'Fair' : 
-                                       healthPercentage >= 20 ? 'Poor' : 'Critical';
-                    
+                    const healthStatus = healthPercentage >= 80 ? 'Excellent' :
+                        healthPercentage >= 60 ? 'Good' :
+                            healthPercentage >= 40 ? 'Fair' :
+                                healthPercentage >= 20 ? 'Poor' : 'Critical';
+
                     // Update mini dashboard values
                     document.getElementById('miniContainers').textContent = `${runningCount}/${totalTools}`;
                     document.getElementById('miniHealth').textContent = healthStatus;
@@ -2834,9 +2937,10 @@
         }
 
         // Initialize suggestions on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             renderSuggestions();
         });
     </script>
 </body>
+
 </html>
