@@ -5,11 +5,19 @@
 
 set -e
 
+# Function to ensure clean exit
+cleanup_and_exit() {
+    local exit_code=${1:-0}
+    echo ""
+    echo "🏁 Script completed. Exiting..."
+    exit $exit_code
+}
+
 echo "🔧 Fixing Arkime data issues..."
 
 # Step 1: Force initialize Arkime database
 echo "📊 Step 1: Initializing Arkime database..."
-sudo docker exec arkime bash -c 'echo "yes" | /opt/arkime/db/db.pl http://os01:9200 init --force' || {
+sudo docker exec arkime bash -c 'echo "INIT" | /opt/arkime/db/db.pl http://os01:9200 init --force' 2>/dev/null || {
     echo "⚠️  Database initialization failed, trying alternative method..."
     
     # Alternative: Direct API call to create indices
@@ -50,30 +58,30 @@ if [ ! -f "sample.pcap" ]; then
     }
 fi
 
-cd /home/ubuntu/CyberBlueSOC
+cd /home/ubuntu/CyberBlueSOC1
 
 # Step 3: Process PCAP files
 echo "⚙️  Step 3: Processing PCAP files in Arkime..."
 if [ -f "./arkime/pcaps/sample_traffic.pcap" ] || [ -f "./arkime/pcaps/sample_web_traffic.pcap" ]; then
-    sudo docker exec arkime bash -c 'cd /data && find pcap -name "*.pcap" -exec /opt/arkime/bin/capture -c /opt/arkime/etc/config.ini -r {} \;' || echo "PCAP processing completed with warnings"
+    sudo docker exec arkime bash -c 'cd /data && find pcap -name "*.pcap" -exec /opt/arkime/bin/capture -c /opt/arkime/etc/config.ini -r {} \;' 2>/dev/null || echo "PCAP processing completed with warnings"
 else
     echo "⚠️  No PCAP files found to process"
 fi
 
 # Step 4: Create admin user for Arkime
 echo "👤 Step 4: Creating Arkime admin user..."
-sudo docker exec arkime /opt/arkime/bin/arkime_add_user.sh admin "Admin User" admin --admin || echo "User creation completed"
+sudo docker exec arkime /opt/arkime/bin/arkime_add_user.sh admin "Admin User" admin --admin 2>/dev/null || echo "User creation completed"
 
 # Step 5: Restart Arkime services
 echo "🔄 Step 5: Restarting Arkime..."
-sudo docker-compose restart arkime
+sudo docker-compose restart arkime 2>/dev/null
 
 echo "⏳ Waiting for Arkime to restart..."
 sleep 10
 
 # Step 6: Verify Arkime is working
 echo "✅ Step 6: Verifying Arkime status..."
-echo "🌐 Arkime should be accessible at: http://52.19.156.64:7008"
+echo "🌐 Arkime should be accessible at: http://localhost:7008"
 echo "👤 Login: admin / admin"
 
 # Check if viewer is responding
@@ -94,5 +102,8 @@ echo ""
 echo "📋 If Arkime still shows no data:"
 echo "   1. Wait 2-3 minutes for full startup"
 echo "   2. Check logs: sudo docker logs arkime"
-echo "   3. Access: http://52.19.156.64:7008"
+echo "   3. Access: http://localhost:7008 (or your server's IP:7008)"
 echo "   4. Login: admin / admin"
+
+# Clean exit
+cleanup_and_exit 0
