@@ -5,7 +5,19 @@ set -e  # Exit on error
 # Record start time
 START_TIME=$(date +%s)
 
+echo ""
+echo "🎉 =================================="
+echo "    ____      _               ____  _            "
+echo "   / ___|   _| |__   ___ _ __| __ )| |_   _  ___ "
+echo "  | |  | | | | '_ \ / _ \ '__|  _ \| | | | |/ _ \\"
+echo "  | |__| |_| | |_) |  __/ |  | |_) | | |_| |  __/"
+echo "   \____\__, |_.__/ \___|_|  |____/|_|\__,_|\___|"
+echo "        |___/                                    "
+echo ""
+echo "  🔷 CyberBlue SOC Platform Initialization 🔷"
+echo ""
 echo "🚀 Starting CyberBlue initialization..."
+echo "=================================="
 
 # ----------------------------
 # Cleanup: Remove existing directories if they exist
