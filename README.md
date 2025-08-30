@@ -17,10 +17,42 @@ CyberBlue transforms Blue Teams cybersecurity tool deployment into a **one-comma
 ### 🌟 Why CyberBlue?
 
 - **🚀 Instant Deployment**: Full security lab in under 30 minutes
-- **🎨 Modern Interface**: Beautiful CyberBlue portal with enhanced dashboard
-- **🔧 Lab Ready**: Pre-configured, optimized containers
-- **📚 Documentation**: Step-by-step guides and tutorials (auto-generated for Beta version)
+- **🔒 Enterprise Security**: HTTPS authentication with SSL encryption
+- **🎨 Modern Interface**: Beautiful portal with secure login system
+- **🔧 Production Ready**: Pre-configured, optimized containers with real data
+- **🤖 Smart Configuration**: Dynamic network interface detection
+- **📊 Data Integration**: Arkime with sample traffic, Suricata with 50K+ events
+- **💾 Backup System**: Complete state preservation and restoration
+- **📚 Documentation**: Comprehensive guides and troubleshooting
 - **🌐 Community Driven**: Open source with active development!
+
+---
+
+## ✨ **Latest Enhancements**
+
+### 🔒 **Security & Authentication**
+- **HTTPS Portal**: Secure SSL/TLS encrypted access on port 5443
+- **Authentication System**: Login required with secure session management
+- **Password Security**: bcrypt hashing with CSRF protection
+- **API Security**: JWT token support for automated integrations
+
+### 🔍 **Data Integration**
+- **Arkime Ready**: Automated database setup with sample network traffic
+- **Suricata Active**: Dynamic interface detection with 50K+ security events
+- **EveBox Connected**: Real-time Suricata event visualization
+- **Live Data**: Immediate analysis capabilities upon deployment
+
+### 🤖 **Smart Configuration**
+- **Dynamic Interface Detection**: Auto-detects network interfaces (ens5, eth0, etc.)
+- **Environment Adaptation**: Works on AWS, VMware, bare metal automatically
+- **Network Optimization**: Proper Docker networking for all tools
+- **Resource Management**: Optimized container resource allocation
+
+### 💾 **Backup & Recovery**
+- **Complete State Backup**: 8.5GB comprehensive backup system
+- **One-Click Restore**: Automated restoration to exact working state
+- **Configuration Preservation**: All customizations and data saved
+- **Disaster Recovery**: Production-grade backup procedures
 
 ---
 
@@ -79,35 +111,50 @@ docker --version && docker compose version
 
 ```bash
 # Clone the repository
-git clone https://github.com/CyberBlue0/CyberBlueSOC.git
+git clone https://github.com/CyberBlue0/CyberBlueSOC1.git
 cd CyberBlueSOC
 
-# Run the quick start script 
+# Run the initialization script 
 chmod +x cyberblue_init.sh
-chmod +x quick-start.sh
-./quick-start.sh
+./cyberblue_init.sh
 ```
 
-The script will:
-- ✅ Check system requirements
-- ✅ Configure environment variables
-- ✅ Deploy all security tools
-- ✅ Start the CyberBlue portal
-- ✅ Display access URLs
+The script will automatically:
+- ✅ Check system requirements and dependencies
+- ✅ Configure environment variables and network settings
+- ✅ Deploy all 15+ security tools with Docker Compose
+- ✅ Initialize Arkime with sample network traffic data
+- ✅ Set up Suricata with dynamic interface detection
+- ✅ Configure Caldera adversary emulation platform
+- ✅ Start the secure HTTPS portal with authentication
+- ✅ Generate SSL certificates and security credentials
+- ✅ Create comprehensive backup for disaster recovery
+- ✅ Display access URLs and login credentials
 
 ### 🌐 Access Your Security Lab
 
 After deployment, access the **CyberBlue Portal** at:
 ```
-http://YOUR_SERVER_IP:5500
+🔒 HTTPS (Recommended): https://YOUR_SERVER_IP:5443
+🔑 Login: admin / cyberblue123
 ```
 
 Individual tools are available on ports **7000-7099**:
-- **Velociraptor**: https://YOUR_SERVER_IP:7000
-- **Wazuh**: https://YOUR_SERVER_IP:7001
-- **Shuffle**: https://YOUR_SERVER_IP:7002
-- **MISP**: https://YOUR_SERVER_IP:7003
-- **And more...**
+- **Velociraptor**: https://YOUR_SERVER_IP:7000 (admin/cyberblue)
+- **Wazuh**: https://YOUR_SERVER_IP:7001 (admin/SecretPassword)
+- **Shuffle**: https://YOUR_SERVER_IP:7002 (admin/password)
+- **MISP**: https://YOUR_SERVER_IP:7003 (admin@admin.test/admin)
+- **CyberChef**: http://YOUR_SERVER_IP:7004 (no auth)
+- **TheHive**: http://YOUR_SERVER_IP:7005 (admin@thehive.local/secret)
+- **Cortex**: http://YOUR_SERVER_IP:7006 (admin/cyberblue123)
+- **FleetDM**: http://YOUR_SERVER_IP:7007 (setup required)
+- **Arkime**: http://YOUR_SERVER_IP:7008 (admin/admin)
+- **Caldera**: http://YOUR_SERVER_IP:7009 (red:cyberblue, blue:cyberblue)
+- **EveBox**: http://YOUR_SERVER_IP:7010 (no auth)
+- **Wireshark**: http://YOUR_SERVER_IP:7011 (admin/cyberblue)
+- **MITRE Navigator**: http://YOUR_SERVER_IP:7013 (no auth)
+- **OpenVAS**: http://YOUR_SERVER_IP:7014 (admin/cyberblue)
+- **Portainer**: https://YOUR_SERVER_IP:9443 (admin/cyberblue123)
 
 ---
 
@@ -119,6 +166,9 @@ Individual tools are available on ports **7000-7099**:
 
 ### 📚 Comprehensive Documentation
 - **[📚 Documentation Hub](docs/README.md)** - Complete documentation index
+- **[⚡ Quick Reference](QUICK_REFERENCE.md)** - Essential commands and access information
+- **[🔍 Arkime Setup](ARKIME_SETUP.md)** - Network analysis with sample data
+- **[📊 System Verification](SYSTEM_VERIFICATION_REPORT.md)** - Current system status
 - **[📖 User Guide](docs/USER_GUIDE.md)** - How to use all CyberBlue tools
 - **[⚙️ Tool Configurations](docs/TOOL_CONFIGURATIONS.md)** - Advanced tool setup and customization
 - **[🔌 API Reference](docs/API_REFERENCE.md)** - Portal API documentation
@@ -157,31 +207,41 @@ For production deployments, see our [Advanced Configuration Guide](docs/ADVANCED
 
 ## 🎨 CyberBlue Portal Features
 
-The CyberBlue Portal provides a unified interface for managing your security lab:
+The CyberBlue Portal provides a secure, unified interface for managing your security lab:
+
+### 🔒 **Security Features**
+- **HTTPS Encryption**: All portal traffic encrypted with SSL/TLS
+- **Authentication System**: Secure login with bcrypt password hashing
+- **Session Management**: Secure sessions with CSRF protection
+- **JWT API Tokens**: Programmatic access with bearer tokens
+- **Activity Logging**: Complete audit trail of all user actions
 
 ### 📊 **Enhanced Dashboard**
-- Real-time container status monitoring
-- System resource utilization
-- Security metrics and trends
-- Activity logging and changelog
+- Real-time container status monitoring (30+ containers)
+- System resource utilization tracking
+- Security metrics and trends visualization
+- Activity logging and comprehensive changelog
+- Container health indicators with status alerts
 
 ### 🔧 **Container Management**
-- One-click start/stop/restart controls
-- Health status indicators
-- Resource usage monitoring
-- Log viewing capabilities
+- One-click start/stop/restart controls for all services
+- Health status indicators with real-time updates
+- Resource usage monitoring and alerts
+- Log viewing capabilities for troubleshooting
+- Automated container monitoring and recovery
 
 ### 🛡️ **Security Overview**
-- Tool categorization (SIEM, DFIR, CTI, SOAR)
-- Quick access to all security tools
-- Integration status monitoring
-- Security posture dashboard
+- Tool categorization (SIEM, DFIR, CTI, SOAR, Utilities)
+- Quick access to all 15+ security tools
+- Integration status monitoring across platforms
+- Security posture dashboard with threat metrics
+- Automated service health checking
 
 ### 🔍 **Search & Filter**
-- Tool search functionality
-- Category-based filtering
-- Status-based filtering
-- Organized tool layout
+- Global tool search functionality
+- Category-based filtering (SIEM, DFIR, CTI, etc.)
+- Status-based filtering (Running, Stopped, Critical)
+- Organized tool layout with descriptions and credentials
 
 ---
 
@@ -228,32 +288,89 @@ CyberBlue uses a microservices architecture with Docker Compose:
 
 **Portal not accessible:**
 ```bash
-# Check portal status
-docker ps | grep portal
+# Check portal status (HTTPS on port 5443)
+sudo docker ps | grep cyber-blue-portal
 
 # View portal logs
-docker logs cyber-blue-portal
+sudo docker logs cyber-blue-portal
+
+# Test HTTPS access
+curl -k https://localhost:5443/login
+
+# Restart portal with authentication
+sudo docker-compose restart portal
+```
+
+**Authentication issues:**
+```bash
+# Default credentials: admin / cyberblue123
+# Reset authentication system
+sudo docker-compose stop portal
+sudo docker-compose build --no-cache portal
+sudo docker-compose up -d portal
+```
+
+**Arkime shows no data:**
+```bash
+# Reinitialize Arkime with sample data
+./scripts/initialize-arkime.sh --capture-live
+
+# Check PCAP files
+ls -la ./arkime/pcaps/
+
+# Verify database connection
+curl http://localhost:9200/_cluster/health
+```
+
+**Suricata/EveBox issues:**
+```bash
+# Update network interface dynamically
+./update-network-interface.sh --restart-suricata
+
+# Check Suricata events
+tail -f ./suricata/logs/eve.json
+
+# Verify EveBox connection
+curl http://localhost:7010
 ```
 
 **Tools not starting:**
 ```bash
-# Check all containers
-docker ps -a
+# Check all containers (should show 30+ running)
+sudo docker ps
 
 # Restart specific service
-docker-compose restart [service-name]
+sudo docker-compose restart [service-name]
+
+# Check service logs
+sudo docker logs [container-name]
 ```
 
 **Resource issues:**
 ```bash
 # Check system resources
-docker stats
+sudo docker stats
 
-# Free up space
-docker system prune -a
+# Free up space (careful!)
+sudo docker system prune -a
+
+# Check disk usage
+df -h
 ```
 
-For more troubleshooting, see our [Troubleshooting Guide](docs/TROUBLESHOOTING.md).
+**Network interface issues:**
+```bash
+# Update interface detection
+./update-network-interface.sh
+
+# Check current interface
+ip route | grep default
+
+# Manual interface setting
+echo "SURICATA_INT=your_interface" >> .env
+```
+
+For comprehensive troubleshooting, see our [Troubleshooting Guide](docs/TROUBLESHOOTING.md) and [Arkime Setup Guide](ARKIME_SETUP.md).
 
 ---
 

@@ -49,56 +49,89 @@ Use passwords that meet these criteria:
 
 ### 4. Service-Specific Passwords
 
-Update these passwords in `.env`:
+**Current Default Passwords** (CHANGE IMMEDIATELY in production):
 
 ```bash
-# Core Services
-WAZUH_ADMIN_PASSWORD='V3ry$tr0ng!P@ssw0rd123'
-OPENSEARCH_ADMIN_PASSWORD='An0th3r$tr0ng!P@ss456'
-MISP_ADMIN_PASSWORD='M1SP$ecur3!P@ssw0rd789'
+# Portal (HTTPS - Port 5443)
+PORTAL_ADMIN_USER='admin'
+PORTAL_ADMIN_PASSWORD='cyberblue123'
+
+# Core SIEM Services
+WAZUH_ADMIN_PASSWORD='SecretPassword'
+OPENSEARCH_ADMIN_PASSWORD='SecurePass123!'
+MISP_ADMIN_PASSWORD='admin'
+
+# SOAR & Analysis Tools
+CORTEX_ADMIN_PASSWORD='cyberblue123'
+THEHIVE_ADMIN_PASSWORD='secret'
+SHUFFLE_ADMIN_PASSWORD='password'
+
+# Network Analysis
+ARKIME_ADMIN_PASSWORD='admin'
+CALDERA_RED_PASSWORD='cyberblue'
+CALDERA_BLUE_PASSWORD='cyberblue'
+
+# Management Tools
+PORTAINER_ADMIN_PASSWORD='cyberblue123'
+VELOCIRAPTOR_ADMIN_PASSWORD='cyberblue'
+WIRESHARK_ADMIN_PASSWORD='cyberblue'
+OPENVAS_ADMIN_PASSWORD='cyberblue'
 
 # Databases
 POSTGRES_PASSWORD='P0stgr3$!Secur3P@ss012'
 MYSQL_ROOT_PASSWORD='MyS3cur3!R00tP@ss345'
 ELASTICSEARCH_PASSWORD='El@st1c$3arch!P@ss678'
+```
 
-# Additional Services
-THEHIVE_ADMIN_PASSWORD='Th3H1v3!Adm1nP@ss901'
-CORTEX_API_KEY='C0rt3x!AP1K3y$234567890'
-   ```
+**⚠️ CRITICAL**: Change ALL passwords before production use!
 
 ---
 
 ## 🛡️ SSL/TLS Configuration
 
-### 1. Generate SSL Certificates
+### ✅ **Current SSL Implementation**
 
-#### Self-Signed Certificates (Development)
+CyberBlueSOC now includes **automatic SSL certificate generation** during installation:
+
+- **Portal HTTPS**: Automatically configured on port 5443
+- **SSL Certificates**: Generated during `cyberblue_init.sh` execution
+- **Certificate Location**: `./portal/ssl/cert.pem` and `./portal/ssl/key.pem`
+- **Validity**: 365 days self-signed certificate
+- **Subject**: `/C=US/ST=State/L=City/O=CyberBlueSOC/CN=cyberblue.local`
+
+### 1. SSL Certificate Management
+
+#### Current Auto-Generated Certificates
+
+The initialization script automatically creates SSL certificates:
 
 ```bash
-# Create SSL directory
-mkdir -p ssl
+# Certificates are automatically created in:
+./portal/ssl/cert.pem  # Public certificate
+./portal/ssl/key.pem   # Private key
 
-# Generate self-signed certificate
+# Verify certificates exist
+ls -la ./portal/ssl/
+
+# Check certificate details
+openssl x509 -in ./portal/ssl/cert.pem -text -noout
+```
+
+#### Regenerate SSL Certificates (if needed)
+
+```bash
+# Navigate to portal SSL directory
+cd ./portal/ssl/
+
+# Generate new self-signed certificate
 openssl req -x509 -nodes -days 365 -newkey rsa:4096 \
-  -keyout ssl/key.pem \
-  -out ssl/cert.pem \
-  -subj "/C=US/ST=State/L=City/O=CyberBlue/CN=cyberblue.local" \
-  -config <(
-    echo '[dn]'
-    echo 'CN=cyberblue.local'
-    echo '[req]'
-    echo 'distinguished_name = dn'
-    echo '[extensions]'
-    echo 'subjectAltName=DNS:cyberblue.local,DNS:*.cyberblue.local,IP:10.0.0.40'
-    echo 'keyUsage=keyEncipherment,dataEncipherment'
-    echo 'extendedKeyUsage=serverAuth'
-  ) \
-  -extensions extensions
+  -keyout key.pem \
+  -out cert.pem \
+  -subj "/C=US/ST=State/L=City/O=CyberBlueSOC/CN=cyberblue.local"
 
-# Set proper permissions
-chmod 600 ssl/key.pem
-chmod 644 ssl/cert.pem
+# Restart portal to use new certificates
+cd ../..
+sudo docker-compose restart portal
 ```
 
 #### Production Certificates (Let's Encrypt)

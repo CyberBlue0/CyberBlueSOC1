@@ -107,10 +107,10 @@ docker compose version
 
 ```bash
 # Clone the repository
-git clone https://github.com/m7siri/cyber-blue-project.git
+git clone https://github.com/CyberBlue0/CyberBlueSOC1.git
 
 # Navigate to directory
-cd cyber-blue-project
+cd CyberBlueSOC
 
 # Verify files
 ls -la
@@ -120,9 +120,9 @@ ls -la
 
 ```bash
 # Download and extract
-wget https://github.com/m7siri/cyber-blue-project/archive/main.zip
+wget https://github.com/CyberBlue0/CyberBlueSOC1/archive/main.zip
 unzip main.zip
-cd cyber-blue-project-main
+cd CyberBlueSOC1-main
 ```
 
 ---
@@ -204,28 +204,42 @@ sudo systemctl restart docker
 
 ## 🚀 Deployment
 
-### Quick Start Deployment
+### Quick Start Deployment (Recommended)
 
 ```bash
 # Make scripts executable
-chmod +x quick-start.sh
 chmod +x cyberblue_init.sh
 
-# Run quick start script
-./quick-start.sh
+# Run initialization script (includes everything)
+./cyberblue_init.sh
 ```
 
-### Manual Deployment
+This single script will:
+- Configure dynamic network interface detection
+- Set up environment variables automatically
+- Deploy all Docker containers
+- Initialize Arkime with sample traffic data
+- Set up Suricata with proper interface detection
+- Install and configure Caldera
+- Generate SSL certificates for HTTPS
+- Create admin users for all tools
+- Start the secure portal with authentication
+
+### Manual Deployment (Advanced)
 
 ```bash
-# 1. Initialize system
+# 1. Initialize system with all enhancements
 ./cyberblue_init.sh
 
-# 2. Start all services
-docker compose up -d
+# 2. Optional: Reinitialize specific components
+./scripts/initialize-arkime.sh --capture-live
+./update-network-interface.sh --restart-suricata
 
 # 3. Monitor deployment
-docker compose logs -f
+sudo docker-compose logs -f
+
+# 4. Verify all services
+sudo docker ps
 ```
 
 ### Step-by-Step Deployment
@@ -268,56 +282,118 @@ docker compose logs [service-name]
 ### 2. Service Accessibility Test
 
 ```bash
-# Test portal accessibility
-curl -f http://localhost:5500 || echo "Portal not accessible"
+# Test portal accessibility (HTTPS with authentication)
+curl -k -f https://localhost:5443/login || echo "Portal not accessible"
 
 # Test individual services
 curl -k -f https://localhost:7000 || echo "Velociraptor not accessible"
 curl -k -f https://localhost:7001 || echo "Wazuh not accessible"
 curl -f http://localhost:7004 || echo "CyberChef not accessible"
+curl -f http://localhost:7008 || echo "Arkime not accessible"
+curl -f http://localhost:7009 || echo "Caldera not accessible"
+curl -f http://localhost:7010 || echo "EveBox not accessible"
+
+# Test with authentication (example for Arkime)
+curl -u admin:admin http://localhost:7008/api/sessions
 ```
 
 ### 3. Port Verification
 
 ```bash
-# Check open ports
-netstat -tulpn | grep -E "(5500|700[0-9]|9443)"
+# Check all CyberBlueSOC ports
+sudo ss -tulpn | grep -E "(5443|5500|700[0-9]|7010|7011|7013|7014|9443)"
 
-# Or using ss command
-ss -tulpn | grep -E "(5500|700[0-9]|9443)"
+# Expected ports:
+# 5443 - Portal HTTPS
+# 7000 - Velociraptor HTTPS
+# 7001 - Wazuh HTTPS  
+# 7002 - Shuffle HTTPS
+# 7003 - MISP HTTPS
+# 7004 - CyberChef HTTP
+# 7005 - TheHive HTTP
+# 7006 - Cortex HTTP
+# 7007 - FleetDM HTTP
+# 7008 - Arkime HTTP
+# 7009 - Caldera HTTP
+# 7010 - EveBox HTTP
+# 7011 - Wireshark HTTP
+# 7013 - MITRE Navigator HTTP
+# 7014 - OpenVAS HTTP
+# 9443 - Portainer HTTPS
+
+# Quick port test
+for port in 5443 7000 7001 7002 7003 7004 7005 7006 7007 7008 7009 7010 7011 7013 7014 9443; do
+  nc -z localhost $port && echo "Port $port: OPEN" || echo "Port $port: CLOSED"
+done
 ```
 
 ---
 
 ## 🔧 First-Time Service Setup
 
-### 1. Wazuh Dashboard Setup
+### 1. CyberBlue Portal (Primary Interface)
+
+1. Access: `https://YOUR_IP:5443`
+2. Login: `admin` / `cyberblue123`
+3. Navigate through the beautiful dashboard
+4. Access all tools through the portal interface
+
+### 2. Wazuh Dashboard Setup
 
 1. Access: `https://YOUR_IP:7001`
-2. Login: `admin` / `SecurePass123!` (from your .env)
+2. Login: `admin` / `SecretPassword`
 3. Complete initial setup wizard
 4. Configure agents as needed
+5. Review pre-configured detection rules
 
-### 2. MISP Setup
+### 3. MISP Setup
 
 1. Access: `https://YOUR_IP:7003`
-2. Login: `admin@cyberblue.local` / `SecurePass123!`
+2. Login: `admin@admin.test` / `admin`
 3. Complete organization setup
 4. Configure feeds and taxonomies
+5. Import threat intelligence feeds
 
-### 3. Velociraptor Setup
+### 4. Arkime Network Analysis
+
+1. Access: `http://YOUR_IP:7008`
+2. Login: `admin` / `admin`
+3. **Sample data already loaded** - 98 packets ready for analysis
+4. Explore network sessions and packet details
+5. Upload additional PCAP files as needed
+
+### 5. Caldera Adversary Emulation
+
+1. Access: `http://YOUR_IP:7009`
+2. Login: `red` / `cyberblue` (Red Team) or `blue` / `cyberblue` (Blue Team)
+3. Explore pre-loaded adversary techniques
+4. Set up agents for testing
+5. Create custom attack scenarios
+
+### 6. Velociraptor Endpoint Forensics
 
 1. Access: `https://YOUR_IP:7000`
-2. Create admin user on first login
+2. Login: `admin` / `cyberblue`
 3. Configure client endpoints
 4. Set up artifact collection
+5. Deploy agents to endpoints
 
-### 4. Shuffle Setup
+### 7. Shuffle Automation Platform
 
 1. Access: `https://YOUR_IP:7002`
-2. Create initial admin account
+2. Login: `admin` / `password`
 3. Configure app integrations
-4. Build your first workflow
+4. Build your first security workflow
+5. Connect with other CyberBlueSOC tools
+
+### 8. Additional Tools
+
+- **Cortex**: `http://YOUR_IP:7006` (admin/cyberblue123) - Observable analysis
+- **TheHive**: `http://YOUR_IP:7005` (admin@thehive.local/secret) - Case management
+- **EveBox**: `http://YOUR_IP:7010` (no auth) - **50K+ Suricata events ready**
+- **CyberChef**: `http://YOUR_IP:7004` (no auth) - Data analysis toolkit
+- **OpenVAS**: `http://YOUR_IP:7014` (admin/cyberblue) - Vulnerability scanning
+- **Portainer**: `https://YOUR_IP:9443` (admin/cyberblue123) - Container management
 
 ---
 
@@ -482,11 +558,12 @@ After successful installation:
 
 If you encounter issues:
 
-1. **Check Logs**: `docker compose logs [service-name]`
-2. **Review Troubleshooting**: Common issues above
-3. **Search Issues**: [GitHub Issues](https://github.com/m7siri/cyber-blue-project/issues)
-4. **Ask Community**: [GitHub Discussions](https://github.com/m7siri/cyber-blue-project/discussions)
-5. **Report Bug**: Create detailed issue report
+1. **Check Logs**: `sudo docker logs [container-name]`
+2. **Review Troubleshooting**: Common issues above and [Troubleshooting Guide](docs/TROUBLESHOOTING.md)
+3. **Check Arkime Setup**: [Arkime Setup Guide](ARKIME_SETUP.md)
+4. **Search Issues**: [GitHub Issues](https://github.com/CyberBlue0/CyberBlueSOC1/issues)
+5. **Ask Community**: [GitHub Discussions](https://github.com/CyberBlue0/CyberBlueSOC1/discussions)
+6. **Report Bug**: Create detailed issue report with system verification
 
 ---
 
@@ -494,14 +571,23 @@ If you encounter issues:
 
 Congratulations! You've successfully installed CyberBlue. Your cybersecurity lab is now ready with:
 
-- ✅ **15+ Security Tools** fully configured
-- ✅ **CyberBlue Portal** for centralized management
-- ✅ **Production-ready** configurations
-- ✅ **Monitoring & Logging** enabled
-- ✅ **Security Hardening** applied
+- ✅ **15+ Security Tools** fully configured and operational
+- ✅ **Secure HTTPS Portal** with authentication at `https://YOUR_IP:5443`
+- ✅ **Real Data Integration** - Arkime with network traffic, Suricata with 50K+ events
+- ✅ **Production-ready** configurations with SSL encryption
+- ✅ **Monitoring & Logging** enabled with comprehensive changelog
+- ✅ **Security Hardening** applied with authentication and access controls
+- ✅ **Dynamic Configuration** with automatic network interface detection
+- ✅ **Backup & Recovery** system for disaster recovery
+- ✅ **Enterprise Features** ready for production deployment
 
-**Next**: Access your CyberBlue Portal at `http://YOUR_IP:5500` and start exploring your security tools!
+**Next Steps**:
+1. **Access Portal**: `https://YOUR_IP:5443` (admin/cyberblue123)
+2. **Explore Arkime**: Network analysis with sample traffic data
+3. **Review EveBox**: 50K+ Suricata security events ready for analysis
+4. **Test Caldera**: Adversary emulation scenarios available
+5. **Configure Tools**: Customize individual tools for your environment
 
 ---
 
-*Need help? Check our [Documentation](README.md) or [Support Channels](https://github.com/m7siri/cyber-blue-project/discussions)* 
+*Need help? Check our [Documentation](README.md) or [Support Channels](https://github.com/CyberBlue0/CyberBlueSOC1/discussions)* 
