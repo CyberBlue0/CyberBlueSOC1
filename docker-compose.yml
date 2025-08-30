@@ -46,6 +46,8 @@ services:
     ports:
       - "7013:4200"
     restart: unless-stopped
+    networks:
+      - cyber-blue
 
   wireshark:
     image: lscr.io/linuxserver/wireshark:latest
@@ -102,6 +104,8 @@ services:
     volumes:
       - ./suricata/logs/eve.json:/var/log/suricata/eve.json:ro
     restart: always
+    networks:
+      - cyber-blue
 
   velociraptor:
     build: ./velociraptor
@@ -408,6 +412,8 @@ services:
     container_name: cyberchef
     ports:
       - "7004:8000"
+    networks:
+      - cyber-blue
 
   os01:
     image: opensearchproject/opensearch:$OS_VERSION
@@ -510,6 +516,8 @@ services:
     container_name: thehive
     ports:
       - "7005:9000"
+    networks:
+      - cyber-blue
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
@@ -523,6 +531,8 @@ services:
     ports:
       - "9210:9200"
       - "9300:9300"
+    networks:
+      - cyber-blue
 
   cortex:
     image: thehiveproject/cortex:latest
@@ -536,6 +546,8 @@ services:
       - elasticsearch
     ports:
       - "0.0.0.0:7006:9001"
+    networks:
+      - cyber-blue
 
   generator:
     image: wazuh/wazuh-certs-generator:0.0.2

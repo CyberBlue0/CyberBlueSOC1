@@ -99,6 +99,7 @@ sudo docker rm -f caldera 2>/dev/null || true
 echo "[+] Running Caldera silently on http://localhost:$HOST_PORT ..."
 sudo docker run -d \
   --name caldera \
+  --network cyber-blue \
   -p "$HOST_PORT:$CONTAINER_PORT" \
   -v "$LOCAL_YML":/usr/src/app/conf/local.yml \
   caldera > /dev/null 2>&1
