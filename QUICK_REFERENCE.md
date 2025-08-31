@@ -62,6 +62,27 @@ sudo docker-compose restart portal
 # Rebuild portal (after changes)
 sudo docker-compose build --no-cache portal
 sudo docker-compose up -d portal
+```
+
+### **Enhanced Arkime Operations**
+```bash
+# Quick Arkime setup with live capture
+./fix-arkime.sh --live                    # 1-minute capture (default)
+./fix-arkime.sh --live-30s                # 30-second quick test
+./fix-arkime.sh --live-5min               # 5-minute investigation
+
+# Custom duration captures
+./fix-arkime.sh -t 2min                   # 2-minute capture
+./fix-arkime.sh -t 45s                    # 45-second capture
+
+# Force database reinitialization
+./fix-arkime.sh --force --live
+
+# Generate PCAP files for analysis (same as fix-arkime.sh)
+./generate-pcap-for-arkime.sh --live      # Default 1-minute
+./generate-pcap-for-arkime.sh --live-5min # 5-minute capture
+./generate-pcap-for-arkime.sh -t 30s      # 30-second capture
+```
 
 # Check portal logs
 sudo docker logs cyber-blue-portal

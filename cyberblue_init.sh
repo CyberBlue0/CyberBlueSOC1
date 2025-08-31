@@ -153,155 +153,33 @@ sudo docker run --rm \
 sudo docker-compose up -d fleet-server
 
 # ----------------------------
-# Enhanced Arkime Setup & Data Initialization
+# Enhanced Arkime Setup using dedicated script
 # ----------------------------
 echo "🔍 Initializing Arkime with enhanced setup..."
 echo "================================================"
 
-# Step 1: Check prerequisites
-echo "📋 Step 1: Checking Arkime prerequisites..."
-
-# Check if Arkime container is running
-if ! sudo docker ps | grep -q arkime; then
-    echo "❌ Arkime container is not running. Starting it..."
-    sudo docker-compose up -d arkime
-    echo "⏳ Waiting for Arkime to start..."
-    sleep 15
-fi
-
-# Wait for OpenSearch to be ready with enhanced checking
-echo "⏳ Waiting for OpenSearch to be ready..."
-for i in {1..30}; do
-    if curl -s http://localhost:9200/_cluster/health | grep -q "green\|yellow"; then
-        echo "✅ OpenSearch is ready"
-        break
-    fi
-    echo "   Waiting for OpenSearch... ($i/30)"
-    sleep 5
-done
-
-# Verify OpenSearch is accessible
-if ! curl -s http://localhost:9200/_cluster/health > /dev/null; then
-    echo "❌ OpenSearch is not accessible. Please ensure os01 container is running."
-    echo "⚠️  Continuing with limited Arkime functionality..."
-else
-    echo "✅ Prerequisites check passed"
-fi
-
-# Step 2: Initialize Arkime database with better error handling
-echo "📊 Step 2: Initializing Arkime database..."
-
-# Initialize with timeout to prevent hanging
-sudo docker exec arkime bash -c 'echo "yes" | timeout 30 /opt/arkime/db/db.pl http://os01:9200 init --force' 2>/dev/null || {
-    echo "⚠️  Database initialization completed (warnings are normal for existing databases)"
-}
-
-# Step 3: Enhanced PCAP data creation and capture
-echo "📁 Step 3: Setting up enhanced PCAP data collection..."
-
-mkdir -p ./arkime/pcaps
-
-# Enhanced network traffic generation
-echo "🌐 Generating comprehensive network activity for analysis..."
-(
-    echo "🔄 Creating diverse network traffic patterns..."
+# Run the dedicated Arkime fix script with 30-second live capture
+echo "🚀 Running enhanced Arkime setup with 30-second live capture..."
+if [ -f "./fix-arkime.sh" ]; then
+    chmod +x ./fix-arkime.sh
+    ./fix-arkime.sh --live-30s
     
-    # HTTP/HTTPS traffic
-    curl -s http://example.com > /dev/null 2>&1 &
-    curl -s http://httpbin.org/json > /dev/null 2>&1 &
-    curl -s http://jsonplaceholder.typicode.com/users > /dev/null 2>&1 &
-    curl -s https://api.github.com/zen > /dev/null 2>&1 &
-    
-    # DNS queries for variety
-    nslookup google.com > /dev/null 2>&1 &
-    nslookup github.com > /dev/null 2>&1 &
-    nslookup stackoverflow.com > /dev/null 2>&1 &
-    
-    # Additional HTTP patterns
-    curl -s -H "User-Agent: CyberBlue-SOC-Test" http://httpbin.org/user-agent > /dev/null 2>&1 &
-    curl -s http://httpbin.org/headers > /dev/null 2>&1 &
-    
-    # Wait for requests to complete
-    sleep 3
-) &
-
-# Enhanced traffic capture with better error handling
-if command -v tcpdump &> /dev/null; then
-    PCAP_FILE="./arkime/pcaps/cyberblue_sample_$(date +%Y%m%d_%H%M%S).pcap"
-    echo "📦 Capturing network traffic to: $PCAP_FILE"
-    timeout 15s sudo tcpdump -i "$SURICATA_IFACE" -w "$PCAP_FILE" -c 100 2>/dev/null || echo "Traffic capture completed"
-    
-    if [ -f "$PCAP_FILE" ]; then
-        echo "✅ Captured $(stat --format=%s "$PCAP_FILE") bytes of network traffic"
-    fi
-else
-    echo "⚠️  tcpdump not available - install with: sudo apt install tcpdump"
-    echo "ℹ️  Arkime will be ready for manual PCAP upload"
-fi
-
-# Step 4: Enhanced PCAP processing with individual file handling
-echo "⚙️  Step 4: Processing PCAP files with enhanced handling..."
-
-if ls ./arkime/pcaps/*.pcap 1> /dev/null 2>&1; then
-    echo "📦 Processing PCAP files in Arkime..."
-    
-    # Process each PCAP file individually for better feedback
-    for pcap_file in ./arkime/pcaps/*.pcap; do
-        filename=$(basename "$pcap_file")
-        echo "   Processing: $filename"
-        sudo docker exec arkime /opt/arkime/bin/capture -c /opt/arkime/etc/config.ini -r "/data/pcap/$filename" 2>/dev/null || echo "   Processed: $filename"
-    done
-    
-    echo "✅ PCAP processing completed"
-else
-    echo "ℹ️  No PCAP files found to process"
-    echo "💡 You can:"
-    echo "   - Manually copy PCAP files to ./arkime/pcaps/"
-    echo "   - Upload PCAP files through Arkime web interface"
-    echo "   - Run the standalone initialize-arkime.sh script with --capture-live"
-fi
-
-# Step 5: Create Arkime admin user with verification
-echo "👤 Step 5: Creating Arkime admin user..."
-sudo docker exec arkime /opt/arkime/bin/arkime_add_user.sh admin "CyberBlue Admin" admin --admin 2>/dev/null || echo "Admin user ready"
-
-# Step 6: Enhanced verification and status reporting
-echo "✅ Step 6: Verifying Arkime setup..."
-
-# Check if viewer is responding
-if curl -s -f http://localhost:7008 > /dev/null; then
-    echo "✅ Arkime web interface is responding at http://localhost:7008"
-else
-    echo "⚠️  Arkime web interface may still be starting up (wait 1-2 minutes)"
-fi
-
-# Check OpenSearch indices with detailed reporting
-if curl -s http://localhost:9200/_cluster/health > /dev/null; then
-    ARKIME_INDICES=$(curl -s "http://localhost:9200/_cat/indices/arkime*" | wc -l)
-    if [ "$ARKIME_INDICES" -gt 0 ]; then
-        echo "✅ Arkime indices created ($ARKIME_INDICES indices found)"
-        echo "📊 Index details:"
-        curl -s "http://localhost:9200/_cat/indices/arkime*" | head -3 | while read line; do
-            echo "   $line"
-        done
+    if [ $? -eq 0 ]; then
+        echo "✅ Arkime setup completed successfully!"
     else
-        echo "⚠️  No Arkime indices found yet - they will be created when data is processed"
+        echo "⚠️  Arkime setup completed with warnings"
     fi
 else
-    echo "ℹ️  OpenSearch connection unavailable for index verification"
+    echo "⚠️  fix-arkime.sh not found, using basic setup..."
+    
+    # Fallback: Basic Arkime user creation
+    echo "👤 Creating Arkime admin user..."
+    sudo docker exec arkime /opt/arkime/bin/arkime_add_user.sh admin "CyberBlue Admin" admin --admin 2>/dev/null || echo "Admin user ready"
+    
+    echo "🌐 Access Arkime at: http://$(hostname -I | awk '{print $1}'):7008"
+    echo "👤 Login credentials: admin / admin"
 fi
 
-echo ""
-echo "🎯 Enhanced Arkime Setup Complete!"
-echo "=================================="
-echo "🌐 Access Arkime at: http://$(hostname -I | awk '{print $1}'):7008"
-echo "👤 Login credentials: admin / admin"
-echo ""
-echo "📋 Arkime is ready with:"
-echo "   ✅ Database initialized"
-echo "   ✅ Admin user created"
-echo "   ✅ Sample traffic captured (if available)"
-echo "   ✅ PCAP processing configured"
 echo ""
 
 # ----------------------------

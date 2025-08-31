@@ -18,19 +18,41 @@ When you run `./cyberblue_init.sh`, Arkime is automatically:
 4. ✅ **Admin User Created** - Ready for immediate use
 5. ✅ **Web Interface Started** - Accessible at port 7008
 
-### Manual Initialization
+### Manual Initialization & Enhanced Setup
 
-If you need to reinitialize Arkime:
+#### **Enhanced Arkime Script (Recommended)**
 
 ```bash
-# Run the standalone initialization script
-./scripts/initialize-arkime.sh
+# Quick setup with 1-minute live capture
+./fix-arkime.sh --live
 
-# With live traffic capture
-./scripts/initialize-arkime.sh --capture-live
+# Custom duration captures
+./fix-arkime.sh --live-30s          # 30 seconds
+./fix-arkime.sh --live-5min         # 5 minutes
+./fix-arkime.sh -t 2min             # 2 minutes
 
-# Force reinitialization
-./scripts/initialize-arkime.sh --force --capture-live
+# Force database reinitialization
+./fix-arkime.sh --force --live
+
+# Short burst capture (original method)
+./fix-arkime.sh --capture-live
+```
+
+#### **Dedicated PCAP Generation**
+
+```bash
+# Generate PCAP files for Arkime analysis
+./generate-pcap-for-arkime.sh                    # 1-minute capture
+./generate-pcap-for-arkime.sh -d 5min            # 5-minute capture
+./generate-pcap-for-arkime.sh --keep-files       # Preserve PCAP files
+./generate-pcap-for-arkime.sh --background -d 10min  # Background capture
+```
+
+#### **Legacy Initialization**
+
+```bash
+# Original initialization script (still available)
+./scripts/initialize-arkime.sh --capture-live --force
 ```
 
 ## 🌐 Access Information
@@ -39,6 +61,79 @@ If you need to reinitialize Arkime:
 - **URL**: `http://YOUR_IP:7008`
 - **Username**: `admin`
 - **Password**: `admin`
+
+---
+
+## ✨ **Enhanced Features (New)**
+
+### **🚀 Live Traffic Capture**
+
+The enhanced Arkime setup now includes real-time network capture capabilities:
+
+#### **Real-Time Monitoring**
+```bash
+./fix-arkime.sh --live-2min
+```
+
+**Output Example**:
+```
+⏰ 20s | 📦 2MB (+1024KB) | 📈 Docs: 45 (+22) | ⏳ 100s left
+⏰ 30s | 📦 3MB (+1024KB) | 📈 Docs: 67 (+22) | ⏳ 90s left
+```
+
+#### **Flexible Duration Control**
+
+| Format | Example | Duration |
+|--------|---------|----------|
+| `--live` | `./fix-arkime.sh --live` | 1 minute (default) |
+| `--live-Ns` | `./fix-arkime.sh --live-30s` | 30 seconds |
+| `--live-Nmin` | `./fix-arkime.sh --live-5min` | 5 minutes |
+| `-t DURATION` | `./fix-arkime.sh -t 2min` | Custom duration |
+
+### **🎯 PCAP Generation Modes**
+
+#### **Quick Analysis**
+```bash
+# 30-second capture for quick testing
+./generate-pcap-for-arkime.sh -d 30s
+
+# 1-minute standard capture
+./generate-pcap-for-arkime.sh
+```
+
+#### **Investigation Mode**
+```bash
+# 5-minute deep investigation
+./generate-pcap-for-arkime.sh -d 5min --keep-files
+
+# Custom incident analysis
+./generate-pcap-for-arkime.sh -f "incident_001.pcap" -d 10min --keep-files
+```
+
+#### **Background Monitoring**
+```bash
+# Start background capture and continue with other tasks
+./generate-pcap-for-arkime.sh --background -d 30min
+
+# Check background process
+ps aux | grep tcpdump
+```
+
+### **🔄 Auto-Cleanup Features**
+
+#### **Default Behavior**
+- **Captures** → **Processes** → **Auto-deletes PCAP**
+- **Preserves indexed data** in Arkime
+- **Saves disk space** automatically
+
+#### **File Preservation**
+```bash
+# Keep PCAP files for manual analysis
+./generate-pcap-for-arkime.sh --keep-files
+
+# Custom output directory
+./generate-pcap-for-arkime.sh -o /tmp/pcaps --keep-files
+```
 
 ### API Access
 ```bash

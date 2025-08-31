@@ -37,7 +37,7 @@ CyberBlue transforms Blue Teams cybersecurity tool deployment into a **one-comma
 - **API Security**: JWT token support for automated integrations
 
 ### 🔍 **Data Integration**
-- **Arkime Ready**: Automated database setup with sample network traffic
+- **Arkime Enhanced**: Live traffic capture with real-time monitoring and flexible durations
 - **Suricata Active**: Dynamic interface detection with 50K+ security events
 - **EveBox Connected**: Real-time Suricata event visualization
 - **Live Data**: Immediate analysis capabilities upon deployment
@@ -119,11 +119,25 @@ chmod +x cyberblue_init.sh
 ./cyberblue_init.sh
 ```
 
+### 🔍 **Enhanced Arkime Operations**
+
+```bash
+# Live network capture with real-time monitoring
+./fix-arkime.sh --live                    # 1-minute capture (default)
+./fix-arkime.sh --live-30s                # 30-second quick test
+./fix-arkime.sh --live-5min               # 5-minute investigation
+
+# Dedicated PCAP generation
+./generate-pcap-for-arkime.sh             # Generate and process PCAP
+./generate-pcap-for-arkime.sh --keep-files # Preserve PCAP files
+./generate-pcap-for-arkime.sh --background -d 10min # Background capture
+```
+
 The script will automatically:
 - ✅ Check system requirements and dependencies
 - ✅ Configure environment variables and network settings
 - ✅ Deploy all 15+ security tools with Docker Compose
-- ✅ Initialize Arkime with sample network traffic data
+- ✅ Initialize Arkime with enhanced 30-second live traffic capture
 - ✅ Set up Suricata with dynamic interface detection
 - ✅ Configure Caldera adversary emulation platform
 - ✅ Start the secure HTTPS portal with authentication
