@@ -100,8 +100,9 @@ sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin d
 sudo usermod -aG docker $USER && \
 newgrp docker && \
 sudo chown root:docker /var/run/docker.sock && \
-cb@cb:~/CyberBlueSOC$ sudo chmod 660 /var/run/docker.sock && \
-docker --version && docker compose version
+sudo chmod 660 /var/run/docker.sock && \
+sudo systemctl enable docker && sudo systemctl start docker && \
+docker --version && docker compose version 
 ```
 - **RAM** (16+ GB recommended)
 - **100GB+ free disk space**
