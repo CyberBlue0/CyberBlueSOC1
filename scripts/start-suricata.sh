@@ -40,4 +40,4 @@ docker-compose -f /home/ubuntu/CyberBlueSOC/docker-compose.yml ps suricata
 
 echo "✅ Suricata startup complete!"
 echo "📁 Logs will be available in: ./suricata/logs/"
-echo "🔍 Events will be visible in Evebox at: http://localhost:7010"
+echo "🔍 Events will be visible in Evebox at: http://localhost:7015"

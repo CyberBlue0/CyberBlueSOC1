@@ -25,7 +25,7 @@ A beautiful, modern web portal that provides centralized access to all CyberBlue
 | Cortex | 7006 | SOAR | Automated Threat Analysis |
 | FleetDM | 7007 | Management | Endpoint Visibility & Management |
 | Arkime | 7008 | IDS | Packet Capture & Analysis |
-| Evebox | 7010 | IDS | Suricata Log Viewer |
+| Evebox | 7015 | IDS | Suricata Log Viewer |
 | Wireshark | 7011 | Utility | Network Protocol Analyzer |
 | MITRE Navigator | 7013 | CTI | ATT&CK Matrix Visualization |
 | Portainer | 9443 | Management | Container Management |

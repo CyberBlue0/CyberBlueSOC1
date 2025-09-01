@@ -22,7 +22,7 @@
 | **FleetDM** | 7007 | ✅ **WORKING** | 307 | HTTPS redirect working |
 | **Arkime** | 7008 | ✅ **WORKING** | 401 | Auth required (correct behavior) |
 | **Caldera** | 7009 | ✅ **WORKING** | 200 | Fully functional |
-| **EveBox** | 7010 | ⚠️ **STARTING** | 000 | May need more startup time |
+| **EveBox** | 7015 | ⚠️ **STARTING** | 000 | May need more startup time |
 | **Wireshark** | 7011 | ⚠️ **STARTING** | 000 | GUI service, may need time |
 | **MITRE Navigator** | 7013 | ✅ **WORKING** | 200 | Fully functional |
 | **OpenVAS** | 7014 | ✅ **WORKING** | 200 | Fully functional |

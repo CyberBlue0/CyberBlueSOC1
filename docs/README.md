@@ -130,7 +130,7 @@ CyberBlue/
 - **Cortex**: 7006
 - **FleetDM**: 7007
 - **Arkime**: 7008
-- **EveBox**: 7010
+- **EveBox**: 7015
 - **Wireshark**: 7011
 
 ---

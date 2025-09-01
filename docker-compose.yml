@@ -63,7 +63,6 @@ services:
     volumes:
       - ./wireshark/config:/config
     ports:
-      - "7011:3000" # HTTP 
       - "7099:3001" # HTTPS 
     restart: unless-stopped
     privileged: true
@@ -100,7 +99,7 @@ services:
       - --input
       - /var/log/suricata/eve.json
     ports:
-      - "7010:5636"
+      - "7015:5636"
     volumes:
       - ./suricata/logs/eve.json:/var/log/suricata/eve.json:ro
     restart: always

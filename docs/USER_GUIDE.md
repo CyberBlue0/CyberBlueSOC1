@@ -18,7 +18,7 @@ This comprehensive guide covers how to effectively use all tools in the CyberBlu
 
 #### Suricata Network Monitoring
 1. **Monitor Network Traffic**: Suricata runs automatically on your configured interface
-2. **View Alerts**: Use EveBox at http://YOUR_IP:7010
+2. **View Alerts**: Use EveBox at http://YOUR_IP:7015
 3. **Rule Management**:
    - Rules located in `./suricata/rules/`
    - Restart Suricata after rule changes: `docker-compose restart suricata`

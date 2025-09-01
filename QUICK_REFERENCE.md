@@ -26,7 +26,7 @@
 | **FleetDM** | `http://YOUR_IP:7007` | Setup Required | ✅ HTTP | Endpoint Management |
 | **Arkime** | `http://YOUR_IP:7008` | admin/admin | ✅ HTTP + Data | Network Analysis |
 | **Caldera** | `http://YOUR_IP:7009` | red:cyberblue, blue:cyberblue | ✅ HTTP | Adversary Emulation |
-| **EveBox** | `http://YOUR_IP:7010` | No Auth | ✅ HTTP + Events | Suricata Events |
+| **EveBox** | `http://YOUR_IP:7015` | No Auth | ✅ HTTP + Events | Suricata Events |
 | **Wireshark** | `http://YOUR_IP:7011` | admin/cyberblue | ⚠️ GUI | Protocol Analysis |
 | **MITRE Navigator** | `http://YOUR_IP:7013` | No Auth | ✅ HTTP | ATT&CK Visualization |
 | **OpenVAS** | `http://YOUR_IP:7014` | admin/cyberblue | ✅ HTTP | Vulnerability Scanning |
@@ -198,7 +198,7 @@ ls ./arkime/pcaps/*.pcap | wc -l
 wc -l ./suricata/logs/eve.json
 
 # All services test
-for port in 5443 7000 7001 7002 7003 7004 7005 7006 7007 7008 7009 7010 7013 7014 9443; do
+for port in 5443 7000 7001 7002 7003 7004 7005 7006 7007 7008 7009 7010 7013 7014 7015 9443; do
   nc -z localhost $port && echo "Port $port: ✅" || echo "Port $port: ❌"
 done
 ```

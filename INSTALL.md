@@ -291,7 +291,7 @@ curl -k -f https://localhost:7001 || echo "Wazuh not accessible"
 curl -f http://localhost:7004 || echo "CyberChef not accessible"
 curl -f http://localhost:7008 || echo "Arkime not accessible"
 curl -f http://localhost:7009 || echo "Caldera not accessible"
-curl -f http://localhost:7010 || echo "EveBox not accessible"
+curl -f http://localhost:7015 || echo "EveBox not accessible"
 
 # Test with authentication (example for Arkime)
 curl -u admin:admin http://localhost:7008/api/sessions
@@ -315,14 +315,14 @@ sudo ss -tulpn | grep -E "(5443|5500|700[0-9]|7010|7011|7013|7014|9443)"
 # 7007 - FleetDM HTTP
 # 7008 - Arkime HTTP
 # 7009 - Caldera HTTP
-# 7010 - EveBox HTTP
+# 7015 - EveBox HTTP
 # 7011 - Wireshark HTTP
 # 7013 - MITRE Navigator HTTP
 # 7014 - OpenVAS HTTP
 # 9443 - Portainer HTTPS
 
 # Quick port test
-for port in 5443 7000 7001 7002 7003 7004 7005 7006 7007 7008 7009 7010 7011 7013 7014 9443; do
+for port in 5443 7000 7001 7002 7003 7004 7005 7006 7007 7008 7009 7010 7011 7013 7014 7015 9443; do
   nc -z localhost $port && echo "Port $port: OPEN" || echo "Port $port: CLOSED"
 done
 ```
@@ -390,7 +390,7 @@ done
 
 - **Cortex**: `http://YOUR_IP:7006` (admin/cyberblue123) - Observable analysis
 - **TheHive**: `http://YOUR_IP:7005` (admin@thehive.local/secret) - Case management
-- **EveBox**: `http://YOUR_IP:7010` (no auth) - **50K+ Suricata events ready**
+- **EveBox**: `http://YOUR_IP:7015` (no auth) - **50K+ Suricata events ready**
 - **CyberChef**: `http://YOUR_IP:7004` (no auth) - Data analysis toolkit
 - **OpenVAS**: `http://YOUR_IP:7014` (admin/cyberblue) - Vulnerability scanning
 - **Portainer**: `https://YOUR_IP:9443` (admin/cyberblue123) - Container management

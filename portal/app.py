@@ -978,7 +978,7 @@ def get_tools():
         {
             "name": "Evebox",
             "description": "Web-based viewer for Suricata EVE JSON logs and alert management.",
-            "port": 7010,
+            "port": 7015,
             "icon": "fas fa-eye",
             "category": "ids",
             "categoryName": "INTRUSION DETECTION",

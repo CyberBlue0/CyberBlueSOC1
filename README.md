@@ -164,7 +164,7 @@ Individual tools are available on ports **7000-7099**:
 - **FleetDM**: http://YOUR_SERVER_IP:7007 (setup required)
 - **Arkime**: http://YOUR_SERVER_IP:7008 (admin/admin)
 - **Caldera**: http://YOUR_SERVER_IP:7009 (red:cyberblue, blue:cyberblue)
-- **EveBox**: http://YOUR_SERVER_IP:7010 (no auth)
+- **EveBox**: http://YOUR_SERVER_IP:7015 (no auth)
 - **Wireshark**: http://YOUR_SERVER_IP:7011 (admin/cyberblue)
 - **MITRE Navigator**: http://YOUR_SERVER_IP:7013 (no auth)
 - **OpenVAS**: http://YOUR_SERVER_IP:7014 (admin/cyberblue)
@@ -345,7 +345,7 @@ curl http://localhost:9200/_cluster/health
 tail -f ./suricata/logs/eve.json
 
 # Verify EveBox connection
-curl http://localhost:7010
+curl http://localhost:7015
 ```
 
 **Tools not starting:**
