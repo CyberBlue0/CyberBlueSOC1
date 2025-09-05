@@ -25,12 +25,36 @@ echo "=================================="
 echo "🧹 Cleaning up any existing build directories..."
 if [ -d "attack-navigator" ]; then
     echo "   Removing existing attack-navigator/ directory..."
-    rm -rf attack-navigator/
+    sudo rm -rf attack-navigator/
 fi
 if [ -d "wireshark" ]; then
     echo "   Removing existing wireshark/ directory..."
-    rm -rf wireshark/
+    sudo rm -rf wireshark/
 fi
+
+# Dockers settings
+# 1) Make sure Docker is allowed to manage iptables
+sudo mkdir -p /etc/docker
+if [ -f /etc/docker/daemon.json ]; then sudo cp /etc/docker/daemon.json /etc/docker/daemon.json.bak; fi
+echo '{"iptables": true}' | sudo tee /etc/docker/daemon.json
+
+# 2) Use the legacy iptables backend (most reliable with Docker)
+sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+sudo update-alternatives --set arptables /usr/sbin/arptables-legacy 2>/dev/null || true
+sudo update-alternatives --set ebtables /usr/sbin/ebtables-legacy 2>/dev/null || true
+
+# 3) Load required kernel modules (in case they’re missing)
+sudo modprobe br_netfilter nf_nat iptable_nat
+
+# 4) Restart Docker
+sudo systemctl restart docker
+
+sudo systemctl stop nftables
+sudo systemctl disable nftables
+sudo systemctl restart docker
+sudo usermod -aG docker $USER
+
 
 # Clone MITRE ATTACK Nav.
 echo "📥 Cloning MITRE ATT&CK Navigator..."
