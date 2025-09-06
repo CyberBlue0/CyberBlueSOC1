@@ -19,11 +19,6 @@ echo ""
 echo "🚀 Starting CyberBlue initialization..."
 echo "=================================="
 
-sudo systemctl stop nftables
-sudo systemctl disable nftables
-sudo systemctl restart docker
-sudo usermod -aG docker $USER
-
 # ----------------------------
 # Cleanup: Remove existing directories if they exist
 # ----------------------------
