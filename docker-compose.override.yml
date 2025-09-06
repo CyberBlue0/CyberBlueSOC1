@@ -1,0 +1,143 @@
+# docker-compose.override.yml
+# Harden startup to avoid "Unable to enable DNAT rule / No chain/target/match" races.
+
+x-waits: &wait_on_docker_ready
+  docker-ready:
+    condition: service_healthy
+
+services:
+  # ---- Host iptables/NAT readiness gate (runs fast, no ports, no volumes) ----
+  docker-ready:
+    image: alpine:3
+    network_mode: host
+    cap_add: [ "NET_ADMIN" ]
+    entrypoint: ["/bin/sh","-lc"]
+    command: >
+      apk add --no-cache iptables >/dev/null 2>&1 || true;
+      for i in $(seq 1 10); do
+        iptables -t nat -L DOCKER >/dev/null 2>&1 && exit 0 || sleep 2;
+      done;
+      echo "DOCKER chain not ready" >&2; exit 1
+    healthcheck:
+      test: ["CMD-SHELL","iptables -t nat -L DOCKER >/dev/null 2>&1"]
+      interval: 3s
+      timeout: 2s
+      retries: 5
+      start_period: 3s
+    restart: on-failure
+
+  # ---- Gate every service that publishes host ports ----
+  portal:
+    depends_on:
+      <<: *wait_on_docker_ready
+
+  portainer:
+    depends_on:
+      <<: *wait_on_docker_ready
+
+  mitre-navigator:
+    depends_on:
+      <<: *wait_on_docker_ready
+
+  evebox:
+    depends_on:
+      <<: *wait_on_docker_ready
+
+  velociraptor:
+    depends_on:
+      <<: *wait_on_docker_ready
+
+  misp-core:
+    # merge with existing depends_on; we re-list originals to be safe
+    depends_on:
+      <<: *wait_on_docker_ready
+      redis:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+      misp-modules:
+        condition: service_healthy
+
+  cyberchef:
+    depends_on:
+      <<: *wait_on_docker_ready
+
+  # Wireshark runs in host mode in your base file; ports are ignored there.
+  # This override removes the redundant ports list to avoid warnings.
+  wireshark:
+    ports: []   # noop in host mode; this silences "ports ignored with host network"
+
+  # Arkime: you had two mappings for the same container port; unify with default.
+  arkime:
+    depends_on:
+      <<: *wait_on_docker_ready
+      ${OS_NODE1}:
+        condition: service_started
+    ports:
+      - "${ARKIME_PORT:-7008}:8005"
+
+  fleet-redis:
+    depends_on:
+      <<: *wait_on_docker_ready
+
+  fleet-server:
+    depends_on:
+      <<: *wait_on_docker_ready
+      fleet-mysql:
+        condition: service_healthy
+      fleet-redis:
+        condition: service_started
+
+  thehive:
+    depends_on:
+      <<: *wait_on_docker_ready
+
+  elasticsearch:
+    depends_on:
+      <<: *wait_on_docker_ready
+
+  cortex:
+    depends_on:
+      <<: *wait_on_docker_ready
+      elasticsearch:
+        condition: service_started
+
+  wazuh.manager:
+    depends_on:
+      <<: *wait_on_docker_ready
+      generator:
+        condition: service_started
+
+  wazuh.indexer:
+    depends_on:
+      <<: *wait_on_docker_ready
+      generator:
+        condition: service_started
+
+  wazuh.dashboard:
+    depends_on:
+      <<: *wait_on_docker_ready
+      wazuh.indexer:
+        condition: service_started
+      generator:
+        condition: service_started
+
+  shuffle-frontend:
+    depends_on:
+      <<: *wait_on_docker_ready
+      shuffle-backend:
+        condition: service_started
+
+  shuffle-backend:
+    depends_on:
+      <<: *wait_on_docker_ready
+
+  shuffle-opensearch:
+    depends_on:
+      <<: *wait_on_docker_ready
+      opensearch-init:
+        condition: service_started
+
+  openvas:
+    depends_on:
+      <<: *wait_on_docker_ready
