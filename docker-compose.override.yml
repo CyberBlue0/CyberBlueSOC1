@@ -1,12 +1,12 @@
 # docker-compose.override.yml
-# Harden startup to avoid "Unable to enable DNAT rule / No chain/target/match" races.
+# Hardens startup to avoid "Unable to enable DNAT rule / No chain/target/match" races.
 
 x-waits: &wait_on_docker_ready
   docker-ready:
     condition: service_healthy
 
 services:
-  # ---- Host iptables/NAT readiness gate (runs fast, no ports, no volumes) ----
+  # Host iptables/NAT readiness gate (quick, no ports/volumes).
   docker-ready:
     image: alpine:3
     network_mode: host
@@ -26,7 +26,8 @@ services:
       start_period: 3s
     restart: on-failure
 
-  # ---- Gate every service that publishes host ports ----
+  # Gate every service that publishes host ports (keeps your originals intact)
+
   portal:
     depends_on:
       <<: *wait_on_docker_ready
@@ -39,6 +40,10 @@ services:
     depends_on:
       <<: *wait_on_docker_ready
 
+  wireshark:
+    # You use network_mode: host in base → ports are ignored there; silence warning.
+    ports: []
+
   evebox:
     depends_on:
       <<: *wait_on_docker_ready
@@ -47,8 +52,8 @@ services:
     depends_on:
       <<: *wait_on_docker_ready
 
+  # MISP core already depends on redis/db/modules; we keep those + add the gate.
   misp-core:
-    # merge with existing depends_on; we re-list originals to be safe
     depends_on:
       <<: *wait_on_docker_ready
       redis:
@@ -62,16 +67,12 @@ services:
     depends_on:
       <<: *wait_on_docker_ready
 
-  # Wireshark runs in host mode in your base file; ports are ignored there.
-  # This override removes the redundant ports list to avoid warnings.
-  wireshark:
-    ports: []   # noop in host mode; this silences "ports ignored with host network"
-
-  # Arkime: you had two mappings for the same container port; unify with default.
+  # Arkime: replace env-var depends_on with the actual service key (os01) + gate.
+  # Also unify duplicate port mapping while keeping your default behavior.
   arkime:
     depends_on:
       <<: *wait_on_docker_ready
-      ${OS_NODE1}:
+      os01:
         condition: service_started
     ports:
       - "${ARKIME_PORT:-7008}:8005"
@@ -80,6 +81,7 @@ services:
     depends_on:
       <<: *wait_on_docker_ready
 
+  # Keep original deps and add gate.
   fleet-server:
     depends_on:
       <<: *wait_on_docker_ready
@@ -96,11 +98,14 @@ services:
     depends_on:
       <<: *wait_on_docker_ready
 
+  # Keep original dep on elasticsearch and add gate.
   cortex:
     depends_on:
       <<: *wait_on_docker_ready
       elasticsearch:
         condition: service_started
+
+  # These three used a list in base; we re-state them as a mapping to preserve deps and add gate.
 
   wazuh.manager:
     depends_on:
